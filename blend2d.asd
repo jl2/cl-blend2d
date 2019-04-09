@@ -1,7 +1,6 @@
 ;;;; blend2d.asd 
-;;
-;; Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
 
+;; Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
 
 ;; Permission to use, copy, modify, and/or distribute this software for any
 ;; purpose with or without fee is hereby granted, provided that the above
@@ -23,5 +22,27 @@
   :serial t
   :depends-on (#:cffi)
   :components ((:file "package")
-               (:file "blend2d"))
+               (:file "blend2d")
+               (:file "bl-array")
+               (:file "bl-font-face")
+               (:file "bl-image-codec")
+               (:file "bl-matrix-2d")
+               (:file "bl-random")
+               (:file "bl-stroke-options")
+               (:file "bl-context")
+               (:file "bl-font-loader")
+               (:file "bl-image-decoder")
+               (:file "bl-path")
+               (:file "bl-region")
+               (:file "bl-variant")
+               (:file "bl-file")
+               (:file "bl-format")
+               (:file "bl-image-encoder")
+               (:file "bl-pattern")
+               (:file "bl-runtime")
+               (:file "bl-font-data")
+               (:file "bl-gradient")
+               (:file "bl-image")
+               (:file "bl-pixel-converter")
+               (:file "bl-string"))
   :in-order-to ((test-op (test-op blend2d.test))))
