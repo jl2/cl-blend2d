@@ -34,10 +34,8 @@
  ;; BLResult   blRegionCombineBR (BLRegionCore *self, const BLBoxI *a, const BLRegionCore *b, uint32_t op)  
  ;; BLResult   blRegionCombineBB (BLRegionCore *self, const BLBoxI *a, const BLBoxI *b, uint32_t op)  
  ;; BLResult   blRegionTranslate (BLRegionCore *self, const BLRegionCore *r, const BLPointI *pt)  
- ;; BLResult   blRegionTranslateAndClip (BLRegionCore *self, const BLRegionCore *r, const BLPointI *pt, const BLBoxI  
- ;;   *clipBox)  
- ;; BLResult   blRegionIntersectAndClip (BLRegionCore *self, const BLRegionCore *a, const BLRegionCore *b, const BLBoxI  
- ;;   *clipBox)  
+ ;; BLResult   blRegionTranslateAndClip (BLRegionCore *self, const BLRegionCore *r, const BLPointI *pt, const BLBoxI *clipBox)  
+ ;; BLResult   blRegionIntersectAndClip (BLRegionCore *self, const BLRegionCore *a, const BLRegionCore *b, const BLBoxI *clipBox)  
  ;; bool   blRegionEquals (const BLRegionCore *a, const BLRegionCore *b)  
  ;; uint32_t   blRegionGetType (const BLRegionCore *self)  
  ;; uint32_t   blRegionHitTest (const BLRegionCore *self, const BLPointI *pt)  

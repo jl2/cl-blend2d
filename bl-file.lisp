@@ -27,27 +27,4 @@
  ;; BLResult   blFileTruncate (BLFileCore *self, int64_t maxSize)  
  ;; BLResult   blFileGetSize (BLFileCore *self, uint64_t *fileSizeOut)  
 
- ;; BLFileSystem  
- ;; BLResult   blFileSystemReadFile (const char *fileName, BLArrayCore *dst, size_t maxSize)  
- ;; BLResult   blFileSystemWriteFile (const char *fileName, const void *data, size_t size, size_t *bytesWrittenOut)  
 
- ;; BLFont  
- ;; BLResult   blFontInit (BLFontCore *self)  
- ;; BLResult   blFontReset (BLFontCore *self)  
- ;; BLResult   blFontAssignMove (BLFontCore *self, BLFontCore *other)  
- ;; BLResult   blFontAssignWeak (BLFontCore *self, const BLFontCore *other)  
- ;; bool   blFontEquals (const BLFontCore *a, const BLFontCore *b)  
- ;; BLResult   blFontCreateFromFace (BLFontCore *self, const BLFontFaceCore *face, float size)  
- ;; BLResult   blFontShape (const BLFontCore *self, BLGlyphBufferCore *buf)  
- ;; BLResult   blFontMapTextToGlyphs (const BLFontCore *self, BLGlyphBufferCore *buf, BLGlyphMappingState *stateOut)  
- ;; BLResult   blFontPositionGlyphs (const BLFontCore *self, BLGlyphBufferCore *buf, uint32_t positioningFlags)  
- ;; BLResult   blFontApplyKerning (const BLFontCore *self, BLGlyphBufferCore *buf)  
- ;; BLResult   blFontApplyGSub (const BLFontCore *self, BLGlyphBufferCore *buf, size_t index, BLBitWord lookups)  
- ;; BLResult   blFontApplyGPos (const BLFontCore *self, BLGlyphBufferCore *buf, size_t index, BLBitWord lookups)  
- ;; BLResult   blFontGetTextMetrics (const BLFontCore *self, BLGlyphBufferCore *buf, BLTextMetrics *out)  
- ;; BLResult   blFontGetGlyphBounds (const BLFontCore *self, const void *glyphIdData, intptr_t glyphIdAdvance, BLBoxI *out, size_t count)  
- ;; BLResult   blFontGetGlyphAdvances (const BLFontCore *self, const void *glyphIdData, intptr_t glyphIdAdvance, BLGlyphPlacement *out, size_t count)  
- ;; BLResult   blFontGetGlyphOutlines (const BLFontCore *self, uint32_t glyphId, const BLMatrix2D *userMatrix, BLPathCore *out, BLPathSinkFunc sink, void  
- ;;   *closure)  
- ;; BLResult   blFontGetGlyphRunOutlines (const BLFontCore *self, const BLGlyphRun *glyphRun, const BLMatrix2D *userMatrix, BLPathCore *out,  
- ;;                                             BLPathSinkFunc sink, void *closure)

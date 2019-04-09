@@ -24,6 +24,5 @@
  ;; bool   blFontLoaderEquals (const BLFontLoaderCore *a, const BLFontLoaderCore *b)  
  ;; BLResult   blFontLoaderCreateFromFile (BLFontLoaderCore *self, const char *fileName)  
  ;; BLResult   blFontLoaderCreateFromDataArray (BLFontLoaderCore *self, const BLArrayCore *dataArray)  
- ;; BLResult   blFontLoaderCreateFromData (BLFontLoaderCore *self, const void *data, size_t size, BLDestroyImplFunc destroyFunc, void  
- ;;   *destroyData)  
+ ;; BLResult   blFontLoaderCreateFromData (BLFontLoaderCore *self, const void *data, size_t size, BLDestroyImplFunc destroyFunc, void *destroyData)  
  ;; BLFontDataImpl *   blFontLoaderDataByFaceIndex (BLFontLoaderCore *self, uint32_t faceIndex)  

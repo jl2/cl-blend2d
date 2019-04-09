@@ -71,31 +71,19 @@
 ;;  BLResult   blContextFillRectD (BLContextCore *self, const BLRect *rect)  
 ;;  BLResult   blContextFillPathD (BLContextCore *self, const BLPathCore *path)  
 ;;  BLResult   blContextFillGeometry (BLContextCore *self, uint32_t geometryType, const void *geometryData)  
-;;  BLResult   blContextFillTextI (BLContextCore *self, const BLPointI *pt, const BLFontCore *font, const void *text, size_t  
-;;    size, uint32_t encoding)  
-;;  BLResult   blContextFillTextD (BLContextCore *self, const BLPoint *pt, const BLFontCore *font, const void *text, size_t  
-;;    size, uint32_t encoding)  
-;;  BLResult   blContextFillGlyphRunI (BLContextCore *self, const BLPointI *pt, const BLFontCore *font, const BLGlyphRun  
-;;    *glyphRun)  
-;;  BLResult   blContextFillGlyphRunD (BLContextCore *self, const BLPoint *pt, const BLFontCore *font, const BLGlyphRun  
-;;    *glyphRun)  
+;;  BLResult   blContextFillTextI (BLContextCore *self, const BLPointI *pt, const BLFontCore *font, const void *text, size_t size, uint32_t encoding)  
+;;  BLResult   blContextFillTextD (BLContextCore *self, const BLPoint *pt, const BLFontCore *font, const void *text, size_t size, uint32_t encoding)  
+;;  BLResult   blContextFillGlyphRunI (BLContextCore *self, const BLPointI *pt, const BLFontCore *font, const BLGlyphRun *glyphRun)  
+;;  BLResult   blContextFillGlyphRunD (BLContextCore *self, const BLPoint *pt, const BLFontCore *font, const BLGlyphRun *glyphRun)  
 ;;  BLResult   blContextStrokeRectI (BLContextCore *self, const BLRectI *rect)  
 ;;  BLResult   blContextStrokeRectD (BLContextCore *self, const BLRect *rect)  
 ;;  BLResult   blContextStrokePathD (BLContextCore *self, const BLPathCore *path)  
 ;;  BLResult   blContextStrokeGeometry (BLContextCore *self, uint32_t geometryType, const void *geometryData)  
-;;  BLResult   blContextStrokeTextI (BLContextCore *self, const BLPointI *pt, const BLFontCore *font, const void *text, size_t  
-;;    size, uint32_t encoding)  
-;;  BLResult   blContextStrokeTextD (BLContextCore *self, const BLPoint *pt, const BLFontCore *font, const void *text, size_t  
-;;    size, uint32_t encoding)  
-;;  BLResult   blContextStrokeGlyphRunI (BLContextCore *self, const BLPointI *pt, const BLFontCore *font, const  
-;;    BLGlyphRun *glyphRun)  
-;;  BLResult   blContextStrokeGlyphRunD (BLContextCore *self, const BLPoint *pt, const BLFontCore *font, const  
-;;    BLGlyphRun *glyphRun)  
-;;  BLResult   blContextBlitImageI (BLContextCore *self, const BLPointI *pt, const BLImageCore *img, const BLRectI  
-;;    *imgArea)  
-;;  BLResult   blContextBlitImageD (BLContextCore *self, const BLPoint *pt, const BLImageCore *img, const BLRectI  
-;;    *imgArea)  
-;;  BLResult   blContextBlitScaledImageI (BLContextCore *self, const BLRectI *rect, const BLImageCore *img, const BLRectI  
-;;    *imgArea)  
-;;  BLResult   blContextBlitScaledImageD (BLContextCore *self, const BLRect *rect, const BLImageCore *img, const BLRectI  
-;;    *imgArea)  
+;;  BLResult   blContextStrokeTextI (BLContextCore *self, const BLPointI *pt, const BLFontCore *font, const void *text, size_t size, uint32_t encoding)  
+;;  BLResult   blContextStrokeTextD (BLContextCore *self, const BLPoint *pt, const BLFontCore *font, const void *text, size_t size, uint32_t encoding)  
+;;  BLResult   blContextStrokeGlyphRunI (BLContextCore *self, const BLPointI *pt, const BLFontCore *font, const BLGlyphRun *glyphRun)  
+;;  BLResult   blContextStrokeGlyphRunD (BLContextCore *self, const BLPoint *pt, const BLFontCore *font, const BLGlyphRun *glyphRun)  
+;;  BLResult   blContextBlitImageI (BLContextCore *self, const BLPointI *pt, const BLImageCore *img, const BLRectI *imgArea)  
+;;  BLResult   blContextBlitImageD (BLContextCore *self, const BLPoint *pt, const BLImageCore *img, const BLRectI *imgArea)  
+;;  BLResult   blContextBlitScaledImageI (BLContextCore *self, const BLRectI *rect, const BLImageCore *img, const BLRectI *imgArea)  
+;;  BLResult   blContextBlitScaledImageD (BLContextCore *self, const BLRect *rect, const BLImageCore *img, const BLRectI *imgArea)  

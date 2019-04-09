@@ -36,6 +36,8 @@
                (:file "bl-region")
                (:file "bl-variant")
                (:file "bl-file")
+               (:file "bl-file-system")
+               (:file "bl-font")
                (:file "bl-format")
                (:file "bl-image-encoder")
                (:file "bl-pattern")

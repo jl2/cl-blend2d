@@ -18,14 +18,12 @@
 
  ;; BLPattern  
  ;; BLResult   blPatternInit (BLPatternCore *self)  
- ;; BLResult   blPatternInitAs (BLPatternCore *self, const BLImageCore *image, const BLRectI *area, uint32_t extendMode,  
- ;;   const BLMatrix2D *m)  
+ ;; BLResult   blPatternInitAs (BLPatternCore *self, const BLImageCore *image, const BLRectI *area, uint32_t extendMode, const BLMatrix2D *m)  
  ;; BLResult   blPatternReset (BLPatternCore *self)  
  ;; BLResult   blPatternAssignMove (BLPatternCore *self, BLPatternCore *other)  
  ;; BLResult   blPatternAssignWeak (BLPatternCore *self, const BLPatternCore *other)  
  ;; BLResult   blPatternAssignDeep (BLPatternCore *self, const BLPatternCore *other)  
- ;; BLResult   blPatternCreate (BLPatternCore *self, const BLImageCore *image, const BLRectI *area, uint32_t extendMode,  
- ;;   const BLMatrix2D *m)  
+ ;; BLResult   blPatternCreate (BLPatternCore *self, const BLImageCore *image, const BLRectI *area, uint32_t extendMode,const BLMatrix2D *m)  
  ;; BLResult   blPatternSetImage (BLPatternCore *self, const BLImageCore *image, const BLRectI *area)  
  ;; BLResult   blPatternSetArea (BLPatternCore *self, const BLRectI *area)  
  ;; BLResult   blPatternSetExtendMode (BLPatternCore *self, uint32_t extendMode)  

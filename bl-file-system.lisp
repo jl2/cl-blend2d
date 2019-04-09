@@ -1,7 +1,6 @@
-;;;; package.lisp 
-;;
-;; Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
+;;;; bl-file-system.lisp
 
+;; Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
 
 ;; Permission to use, copy, modify, and/or distribute this software for any
 ;; purpose with or without fee is hereby granted, provided that the above
@@ -15,7 +14,8 @@
 ;; ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 ;; OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-(defpackage :blend2d
-  (:use #:cl #:j-utils #:alexandria)
-  (:nicknames #:bl)
-  (:export ))
+;; From https://blend2d.com/api/group__blend2d__api__c__functions.html
+
+ ;; BLFileSystem  
+ ;; BLResult   blFileSystemReadFile (const char *fileName, BLArrayCore *dst, size_t maxSize)  
+ ;; BLResult   blFileSystemWriteFile (const char *fileName, const void *data, size_t size, size_t *bytesWrittenOut)  

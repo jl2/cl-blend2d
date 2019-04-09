@@ -18,13 +18,11 @@
 
  ;; BLGradient  
  ;; BLResult   blGradientInit (BLGradientCore *self)  
- ;; BLResult   blGradientInitAs (BLGradientCore *self, uint32_t type, const void *values, uint32_t extendMode, const BLGradientStop *stops,  
- ;;   size_t n, const BLMatrix2D *m)  
+ ;; BLResult   blGradientInitAs (BLGradientCore *self, uint32_t type, const void *values, uint32_t extendMode, const BLGradientStop *stops,size_t n, const BLMatrix2D *m)  
  ;; BLResult   blGradientReset (BLGradientCore *self)  
  ;; BLResult   blGradientAssignMove (BLGradientCore *self, BLGradientCore *other)  
  ;; BLResult   blGradientAssignWeak (BLGradientCore *self, const BLGradientCore *other)  
- ;; BLResult   blGradientCreate (BLGradientCore *self, uint32_t type, const void *values, uint32_t extendMode, const BLGradientStop *stops,  
- ;;   size_t n, const BLMatrix2D *m)  
+ ;; BLResult   blGradientCreate (BLGradientCore *self, uint32_t type, const void *values, uint32_t extendMode, const BLGradientStop *stops,size_t n, const BLMatrix2D *m)  
  ;; BLResult   blGradientShrink (BLGradientCore *self)  
  ;; BLResult   blGradientReserve (BLGradientCore *self, size_t n)  
  ;; uint32_t   blGradientGetType (const BLGradientCore *self)  

@@ -21,8 +21,7 @@
  ;; BLResult   blImageCodecReset (BLImageCodecCore *self)  
  ;; BLResult   blImageCodecAssignWeak (BLImageCodecCore *self, const BLImageCodecCore *other)  
  ;; BLResult   blImageCodecFindByName (BLImageCodecCore *self, const BLArrayCore *codecs, const char *name)  
- ;; BLResult   blImageCodecFindByData (BLImageCodecCore *self, const BLArrayCore *codecs, const void *data, size_t  
- ;;   size)  
+ ;; BLResult   blImageCodecFindByData (BLImageCodecCore *self, const BLArrayCore *codecs, const void *data, size_t size)  
  ;; uint32_t   blImageCodecInspectData (const BLImageCodecCore *self, const void *data, size_t size)  
  ;; BLResult   blImageCodecCreateDecoder (const BLImageCodecCore *self, BLImageDecoderCore *dst)  
  ;; BLResult   blImageCodecCreateEncoder (const BLImageCodecCore *self, BLImageEncoderCore *dst)  

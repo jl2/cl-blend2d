@@ -40,8 +40,7 @@
  ;; BLResult   blPathSmoothCubicTo (BLPathCore *self, double x2, double y2, double x3, double y3)  
  ;; BLResult   blPathArcTo (BLPathCore *self, double x, double y, double rx, double ry, double start, double sweep, bool forceMoveTo)  
  ;; BLResult   blPathArcQuadrantTo (BLPathCore *self, double x1, double y1, double x2, double y2)  
- ;; BLResult   blPathEllipticArcTo (BLPathCore *self, double rx, double ry, double xAxisRotation, bool largeArcFlag, bool sweepFlag, double x1, double  
- ;;   y1)  
+ ;; BLResult   blPathEllipticArcTo (BLPathCore *self, double rx, double ry, double xAxisRotation, bool largeArcFlag, bool sweepFlag, double x1, double y1)  
  ;; BLResult   blPathClose (BLPathCore *self)  
  ;; BLResult   blPathAddGeometry (BLPathCore *self, uint32_t geometryType, const void *geometryData, const BLMatrix2D *m, uint32_t dir)  
  ;; BLResult   blPathAddBoxI (BLPathCore *self, const BLBoxI *box, uint32_t dir)  
@@ -52,8 +51,7 @@
  ;; BLResult   blPathAddTranslatedPath (BLPathCore *self, const BLPathCore *other, const BLRange *range, const BLPoint *p)  
  ;; BLResult   blPathAddTransformedPath (BLPathCore *self, const BLPathCore *other, const BLRange *range, const BLMatrix2D *m)  
  ;; BLResult   blPathAddReversedPath (BLPathCore *self, const BLPathCore *other, const BLRange *range, uint32_t reverseMode)  
- ;; BLResult   blPathAddStrokedPath (BLPathCore *self, const BLPathCore *other, const BLRange *range, const BLStrokeOptionsCore *options, const  
- ;;   BLApproximationOptions *approx)  
+ ;; BLResult   blPathAddStrokedPath (BLPathCore *self, const BLPathCore *other, const BLRange *range, const BLStrokeOptionsCore *options, const BLApproximationOptions *approx)  
  ;; BLResult   blPathTranslate (BLPathCore *self, const BLRange *range, const BLPoint *p)  
  ;; BLResult   blPathTransform (BLPathCore *self, const BLRange *range, const BLMatrix2D *m)  
  ;; BLResult   blPathFitTo (BLPathCore *self, const BLRange *range, const BLRect *rect, uint32_t fitFlags)  

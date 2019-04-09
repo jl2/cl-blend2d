@@ -23,7 +23,6 @@
  ;; BLResult   blImageDecoderAssignWeak (BLImageDecoderCore *self, const BLImageDecoderCore *other)  
  ;; BLResult   blImageDecoderRestart (BLImageDecoderCore *self)  
  ;; BLResult   blImageDecoderReadInfo (BLImageDecoderCore *self, BLImageInfo *infoOut, const uint8_t *data, size_t size)  
- ;; BLResult   blImageDecoderReadFrame (BLImageDecoderCore *self, BLImageCore *imageOut, const uint8_t *data, size_t  
- ;;   size)  
+ ;; BLResult   blImageDecoderReadFrame (BLImageDecoderCore *self, BLImageCore *imageOut, const uint8_t *data, size_t size)  
 
 

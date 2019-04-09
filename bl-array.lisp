@@ -48,8 +48,7 @@
 ;;  BLResult   blArrayInsertF32 (BLArrayCore *self, size_t index, float value)  
 ;;  BLResult   blArrayInsertF64 (BLArrayCore *self, size_t index, double value)  
 ;;  BLResult   blArrayInsertItem (BLArrayCore *self, size_t index, const void *item)  
-;;  BLResult   blArrayInsertView (BLArrayCore *self, size_t index, const void *items, size_t  
-;;    n)  
+;;  BLResult   blArrayInsertView (BLArrayCore *self, size_t index, const void *items, size_t n)  
 ;;  BLResult   blArrayReplaceU8 (BLArrayCore *self, size_t index, uint8_t value)  
 ;;  BLResult   blArrayReplaceU16 (BLArrayCore *self, size_t index, uint16_t value)  
 ;;  BLResult   blArrayReplaceU32 (BLArrayCore *self, size_t index, uint32_t value)  
@@ -57,8 +56,7 @@
 ;;  BLResult   blArrayReplaceF32 (BLArrayCore *self, size_t index, float value)  
 ;;  BLResult   blArrayReplaceF64 (BLArrayCore *self, size_t index, double value)  
 ;;  BLResult   blArrayReplaceItem (BLArrayCore *self, size_t index, const void *item)  
-;;  BLResult   blArrayReplaceView (BLArrayCore *self, const BLRange *range, const void  
-;;    *items, size_t n)  
+;;  BLResult   blArrayReplaceView (BLArrayCore *self, const BLRange *range, const void *items, size_t n)
 ;;  BLResult   blArrayRemoveIndex (BLArrayCore *self, size_t index)  
 ;;  BLResult   blArrayRemoveRange (BLArrayCore *self, const BLRange *range)  
 ;;  bool   blArrayEquals (const BLArrayCore *a, const BLArrayCore *b)  
