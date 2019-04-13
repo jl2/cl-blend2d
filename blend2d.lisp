@@ -22,6 +22,11 @@
                     :sysincludes #+linux(list "/usr/include/x86_64-linux-gnu/" "/usr/include/x86_64-linux-gnu/c++/7/")
                     :language "c"
                     :spec-path '(blend2d)
+                    :symbol-regex (("^BL_(.*)" () "\\1")
+                                   ("^BL(.*)" () "\\1")
+                                   ("^bl(.*)" () "\\1"))
+                    
+                    :exclude-definitions ("^va_list$" "Random" "Signal" "abort" "abs")
                     :symbol-exceptions (("random" . "bl-random")
                                         ("signal" . "bl-signal")
                                         ("abort" . "bl-abort")
