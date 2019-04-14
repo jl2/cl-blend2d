@@ -32,89 +32,89 @@
 ;; The original source code is available here:
 ;; https://github.com/blend2d/bl-samples/blob/master/src/bl-capi-sample.c
 
-(test capi-sample
-  ;;  #include <blend2d.h>
+;; (test capi-sample
+;;   ;;  #include <blend2d.h>
 
-  ;; int main(int argc, char* argv[]) {
+;;   ;; int main(int argc, char* argv[]) {
 
-  ;;   BLImageCore img;
-  ;;   BLContextCore ctx;
-  ;;   BLGradientCore gradient;
-  (let ((img (autowrap:alloc 'bl:image-core))
-        (ctx (autowrap:alloc 'bl:context-core))
-        (gradient (autowrap:alloc 'bl:graient-core))
-        (values (autowrap:alloc 'bl:linear-gradient-values)))
+;;   ;;   BLImageCore img;
+;;   ;;   BLContextCore ctx;
+;;   ;;   BLGradientCore gradient;
+;;   (let ((img (autowrap:alloc 'bl:image-core))
+;;         (ctx (autowrap:alloc 'bl:context-core))
+;;         (gradient (autowrap:alloc 'bl:graient-core))
+;;         (values (autowrap:alloc 'bl:linear-gradient-values)))
 
-    ;;   r = blImageInitAs(&img, 256, 256, BL_FORMAT_PRGB32);
-    ;;   if (r != BL_SUCCESS)
-    ;;     return 1;
-    (bl:image-init-as img 256 256 bl:+format-prgb32+)
+;;     ;;   r = blImageInitAs(&img, 256, 256, BL_FORMAT_PRGB32);
+;;     ;;   if (r != BL_SUCCESS)
+;;     ;;     return 1;
+;;     (bl:image-init-as img 256 256 bl:+format-prgb32+)
 
-    ;;   r = blContextInitAs(&ctx, &img, (NULL);
-    ;;   if (r != BL_SUCCESS)
-    ;;     return 1;
-    (bl:context-init-as ctx img)
-    (setf (bl:gradient-v
-    ;;   BLLinearGradientValues values = { 0, 0, 256, 256 };
-    ;;   r = blGradientInitAs(&gradient,
-    ;;     BL_GRADIENT_TYPE_LINEAR, &values,
-    ;;     BL_EXTEND_MODE_PAD, NULL, 0, NULL);
-    ;;   if (r != BL_SUCCESS)
-    ;;     return 1;
-    (bl:gradient-init-as gradient
-                         bl:+gradient-type-linear+ values
-                         bl:+extend-mode-pad+ (cffi:null-pointer) 0 (cffi:null-pointer))
+;;     ;;   r = blContextInitAs(&ctx, &img, (NULL);
+;;     ;;   if (r != BL_SUCCESS)
+;;     ;;     return 1;
+;;     (bl:context-init-as ctx img)
+;;     (setf (bl:gradient-v
+;;     ;;   BLLinearGradientValues values = { 0, 0, 256, 256 };
+;;     ;;   r = blGradientInitAs(&gradient,
+;;     ;;     BL_GRADIENT_TYPE_LINEAR, &values,
+;;     ;;     BL_EXTEND_MODE_PAD, NULL, 0, NULL);
+;;     ;;   if (r != BL_SUCCESS)
+;;     ;;     return 1;
+;;     (bl:gradient-init-as gradient
+;;                          bl:+gradient-type-linear+ values
+;;                          bl:+extend-mode-pad+ (cffi:null-pointer) 0 (cffi:null-pointer))
 
-    ;;   blGradientAddStopRgba32(&gradient, 0.0, 0xFFFFFFFFu);
-    (bl:gradient-add-stop-rgb32 gradient 0.0 #16rFFFFFF00)
+;;     ;;   blGradientAddStopRgba32(&gradient, 0.0, 0xFFFFFFFFu);
+;;     (bl:gradient-add-stop-rgb32 gradient 0.0 #16rFFFFFF00)
 
-    ;;   blGradientAddStopRgba32(&gradient, 0.5, 0xFFFFAF00u);
-    (bl:gradient-add-stop-rgb32 gradient 0.5 #16rFFFFAF00)
+;;     ;;   blGradientAddStopRgba32(&gradient, 0.5, 0xFFFFAF00u);
+;;     (bl:gradient-add-stop-rgb32 gradient 0.5 #16rFFFFAF00)
 
-    ;;   blGradientAddStopRgba32(&gradient, 1.0, 0xFFFF0000u);
-    (bl:gradient-add-stop-rgb32 gradient 1.0 #16rFFFF0000)
+;;     ;;   blGradientAddStopRgba32(&gradient, 1.0, 0xFFFF0000u);
+;;     (bl:gradient-add-stop-rgb32 gradient 1.0 #16rFFFF0000)
 
-    ;;   blContextSetFillStyle(&ctx, &gradient);
-    (bl:context-set-fill-style ctx gradient)
+;;     ;;   blContextSetFillStyle(&ctx, &gradient);
+;;     (bl:context-set-fill-style ctx gradient)
 
-    ;;   blContextFillAll(&ctx);
-    (bl:context-fill-all ctx)
+;;     ;;   blContextFillAll(&ctx);
+;;     (bl:context-fill-all ctx)
 
-    ;;   blGradientReset(&gradient);
-    (bl:gradient-reset gradient)
+;;     ;;   blGradientReset(&gradient);
+;;     (bl:gradient-reset gradient)
 
-    ;;   BLCircle circle;
-    ;;   circle.cx = 128;
-    ;;   circle.cy = 128;
-    ;;   circle.r = 64;
-    (let ((circle (autowrap:alloc 'bl:circle)))
-      (bl:circle- bl:make-circle :cx 128 :cy 128 :r 64)))
-      ;;   blContextSetCompOp(&ctx, BL_COMP_OP_EXCLUSION);
-      (bl:context-set-comp-op ctx :comp-op-exclusion)
+;;     ;;   BLCircle circle;
+;;     ;;   circle.cx = 128;
+;;     ;;   circle.cy = 128;
+;;     ;;   circle.r = 64;
+;;     (let ((circle (autowrap:alloc 'bl:circle)))
+;;       (bl:circle- bl:make-circle :cx 128 :cy 128 :r 64)))
+;;       ;;   blContextSetCompOp(&ctx, BL_COMP_OP_EXCLUSION);
+;;       (bl:context-set-comp-op ctx :comp-op-exclusion)
 
-      ;;   blContextSetFillStyleRgba32(&ctx, 0xFF00FFFFu);
-      (bl:context-set-fill-style-rgba32 ctx #16rFF00FFFF)
+;;       ;;   blContextSetFillStyleRgba32(&ctx, 0xFF00FFFFu);
+;;       (bl:context-set-fill-style-rgba32 ctx #16rFF00FFFF)
 
-      ;;   blContextFillGeometry(&ctx, BL_GEOMETRY_TYPE_CIRCLE, &circle);
-      (bl:context-fill-geometry ctx :geometry-type-circle circle)
+;;       ;;   blContextFillGeometry(&ctx, BL_GEOMETRY_TYPE_CIRCLE, &circle);
+;;       (bl:context-fill-geometry ctx :geometry-type-circle circle)
 
-      ;;   blContextEnd(&ctx);
-      (bl:context-end)
+;;       ;;   blContextEnd(&ctx);
+;;       (bl:context-end)
 
-      ;;   BLImageCodecCore codec;
-      (let ((codec (bl:make-image-codec-core)))
-        ;;   blImageCodecInit(&codec);
-        (bl:image-codec-init codec)
+;;       ;;   BLImageCodecCore codec;
+;;       (let ((codec (bl:make-image-codec-core)))
+;;         ;;   blImageCodecInit(&codec);
+;;         (bl:image-codec-init codec)
 
-        ;;   blImageCodecFindByName(&codec, blImageCodecBuiltInCodecs(), "BMP");
-        (bl:image-codec-find-by-name  (bl:image-codec-build-in-codecs) "BMP")
-        ;;   blImageWriteToFile(&img, "bl-capi-sample.bmp", &codec);
-        (bl:image-write-to-file img "bl-capi-sample.bmp" codec)
+;;         ;;   blImageCodecFindByName(&codec, blImageCodecBuiltInCodecs(), "BMP");
+;;         (bl:image-codec-find-by-name  (bl:image-codec-build-in-codecs) "BMP")
+;;         ;;   blImageWriteToFile(&img, "bl-capi-sample.bmp", &codec);
+;;         (bl:image-write-to-file img "bl-capi-sample.bmp" codec)
 
-        ;;   blImageCodecReset(&codec);
-        (bl:image-codec-reset codec))))
-  ;;   blImageReset(&img);
-  (bl:image-reset img))
+;;         ;;   blImageCodecReset(&codec);
+;;         (bl:image-codec-reset codec))))
+;;   ;;   blImageReset(&img);
+;;   (bl:image-reset img))
 
 (test web-sample
   ;; BLImage img(480, 480, BL_FORMAT_PRGB32);

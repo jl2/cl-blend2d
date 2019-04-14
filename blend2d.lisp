@@ -17,9 +17,16 @@
 
 (in-package :blend2d)
 
-(cffi:use-foreign-library "/home/jeremiah/oss_src/blend2d/blend2d/build/libblend2d.so")
-(autowrap:c-include "/home/jeremiah/oss_src/blend2d/blend2d/src/blend2d.h"
-                    :sysincludes #+linux(list "/usr/include/x86_64-linux-gnu/" "/usr/include/x86_64-linux-gnu/c++/7/")
+(cffi:define-foreign-library blend2d-lib
+    (:darwin (:or "libblend2d.dylib" "libblend2d"))
+    (:unix (:or "libblend2d.so" "libblend2d"))
+    (t (:default "libblend2d")))
+(cffi:use-foreign-library blend2d-lib)
+
+(autowrap:c-include "blend2d.h"
+                    :sysincludes (list #+linux"/usr/include/x86_64-linux-gnu/"
+                                       #+linux"/usr/include/x86_64-linux-gnu/c++/7/"
+                                       #+darwin"/Application/Xcode.app/Contents/Developer/Contents/MaxOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include")
                     :language "c"
                     :spec-path '(blend2d)
                     :symbol-regex (("^BL_(.*)" () "\\1")
