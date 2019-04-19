@@ -23,7 +23,7 @@
     (t (:default "libblend2d")))
 (cffi:use-foreign-library blend2d-lib)
 
-(autowrap:c-include "blend2d.h"
+(autowrap:c-include "/usr/local/include/blend2d.h"
                     :sysincludes (list #+linux"/usr/include/x86_64-linux-gnu/"
                                        #+linux"/usr/include/x86_64-linux-gnu/c++/7/"
                                        #+darwin"/Application/Xcode.app/Contents/Developer/Contents/MaxOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include")
