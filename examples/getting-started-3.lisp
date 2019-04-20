@@ -1,4 +1,4 @@
-;;;; getting-started-2.lisp
+;;;; getting-started-3.lisp
 ;;
 ;; Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
 
@@ -16,14 +16,14 @@
 
 (in-package :blend2d.examples)
 
-(defun getting-started-2 (file-name &key (width 800) (height 800))
-  (let ((img (autowrap:alloc 'bl:image-core))
-        (ctx (autowrap:alloc 'bl:context-core))
-        (path (autowrap:alloc 'bl:path-core))
-        (codec (autowrap:alloc 'bl:image-codec-core))
-        (linear (autowrap:alloc 'bl:linear-gradient-values))
-        (grad (autowrap:alloc 'bl:gradient-core))
-        (rect (autowrap:alloc 'bl:round-rect)))
+(defun getting-started-3 (file-name &key (texture-file-name "texture.jpeg") (width 800) (height 800))
+  (let ((img  (autowrap:alloc 'bl:image-core))
+        (texture  (autowrap:alloc 'bl:image-core))
+        (pattern  (autowrap:alloc 'bl:pattern-core))
+        (ctx  (autowrap:alloc 'bl:context-core))
+        (codec  (autowrap:alloc 'bl:image-codec-core))
+        (matrix  (autowrap:alloc 'bl:matrix2d))
+        (rect  (autowrap:alloc 'bl:round-rect)))
 
     (bl:image-init-as img width height bl:+format-prgb32+)
 
@@ -31,42 +31,31 @@
     (bl:context-set-comp-op ctx bl:+comp-op-src-copy+)
     (bl:context-fill-all ctx)
 
-    (setf (bl:linear-gradient-values.x0 linear) 0.0)
-    (setf (bl:linear-gradient-values.y0 linear) 0.0)
-    (setf (bl:linear-gradient-values.x1 linear) 0.0)
-    (setf (bl:linear-gradient-values.y1 linear) 480.0)
+    (bl:matrix2d-set-identity matrix)
+    (bl:image-read-from-file texture texture-file-name (bl:image-codec-built-in-codecs))
 
-    (show-result (bl:gradient-init-as grad
-                                      bl:+gradient-type-linear+
-                                      linear
-                                      bl:+extend-mode-pad+ (cffi:null-pointer) 0  (cffi:null-pointer)))
-    (bl:gradient-add-stop-rgba32 grad 0.0 #16rffffffff)
-    (bl:gradient-add-stop-rgba32 grad 0.5 #16rff5fafdf)
-    (bl:gradient-add-stop-rgba32 grad 1.0 #16rff2f5fdf)
+    (bl:pattern-init-as pattern texture (cffi:null-pointer) bl:+extend-mode-repeat+ matrix)
+    (bl:context-set-fill-style ctx pattern)
 
     (bl:context-set-comp-op ctx bl:+comp-op-src-over+)
-    (bl:context-set-fill-style ctx grad)
+
     (setf (bl:round-rect.x rect) 40.0)
     (setf (bl:round-rect.y rect) 40.0)
     (setf (bl:round-rect.w rect) 400.0)
     (setf (bl:round-rect.h rect) 400.0)
     (setf (bl:round-rect.radius.x rect) 90.0)
     (setf (bl:round-rect.radius.y rect) 90.0)
-
     (bl:context-fill-geometry ctx bl:+geometry-type-round-rect+ rect)
     (bl:context-end ctx)
-
-    
     (bl:image-codec-init codec)
     (bl:image-codec-find-by-name codec (bl:image-codec-built-in-codecs) "BMP")
     (when (uiop/filesystem:file-exists-p file-name)
       (delete-file file-name))
-
     (bl:image-write-to-file img file-name codec)
 
     (autowrap:free rect)
-    (autowrap:free grad)
+    (autowrap:free matrix)
     (autowrap:free codec)
-    (autowrap:free path)
+    (autowrap:free texture)
     (autowrap:free img)
     (autowrap:free ctx)))
