@@ -19,10 +19,10 @@
 (defun getting-started-2 (file-name &key (width 800) (height 800))
   (let ((img (show-result (autowrap:alloc 'bl:image-core)))
         (ctx (show-result (autowrap:alloc 'bl:context-core)))
-        (linear (show-result (autowrap:alloc 'bl:gradient-core)))
         (path (show-result (autowrap:alloc 'bl:path-core)))
         (codec (show-result (autowrap:alloc 'bl:image-codec-core)))
-        (grad (show-result (autowrap:alloc 'bl:linear-gradient-values)))
+        (linear (show-result (autowrap:alloc 'bl:linear-gradient-values)))
+        (grad (show-result (autowrap:alloc 'bl:gradient-core)))
         (rect (show-result (autowrap:alloc 'bl:round-rect))))
 
     (show-result (bl:image-init-as img width height bl:+format-prgb32+))
@@ -31,19 +31,27 @@
     (show-result (bl:context-set-comp-op ctx bl:+comp-op-src-copy+))
     (show-result (bl:context-fill-all ctx))
 
-    (show-result (bl:gradient-init-as linear bl:+gradient-type-linear+ grad 0 nil 0  nil))
-    (show-result (bl:gradient-add-stop-rgba32 linear 0.0 #16rffffffff))
-    (show-result (bl:gradient-add-stop-rgba32 linear 0.5 #16rff5fafdf))
-    (show-result (bl:gradient-add-stop-rgba32 linear 1.0 #16rff2f5fdf))
+    (setf (bl:linear-gradient-values.x0 linear) 0.0)
+    (setf (bl:linear-gradient-values.y0 linear) 0.0)
+    (setf (bl:linear-gradient-values.x1 linear) 0.0)
+    (setf (bl:linear-gradient-values.y1 linear) 480.0)
+
+    (show-result (bl:gradient-init-as grad
+                                      bl:+gradient-type-linear+
+                                      linear
+                                      bl:+extend-mode-pad+ (cffi:null-pointer) 0  (cffi:null-pointer)))
+    (show-result (bl:gradient-add-stop-rgba32 grad 0.0 #16rffffffff))
+    (show-result (bl:gradient-add-stop-rgba32 grad 0.5 #16rff5fafdf))
+    (show-result (bl:gradient-add-stop-rgba32 grad 1.0 #16rff2f5fdf))
 
     (show-result (bl:context-set-comp-op ctx bl:+comp-op-src-over+))
-
+    (show-result (bl:context-set-fill-style ctx grad))
     (show-result (setf (bl:round-rect.x rect) 40.0))
     (show-result (setf (bl:round-rect.y rect) 40.0))
     (show-result (setf (bl:round-rect.w rect) 400.0))
     (show-result (setf (bl:round-rect.h rect) 400.0))
-    (show-result (setf (bl:round-rect.radius.x rect) 45.0))
-    (show-result (setf (bl:round-rect.radius.y rect) 45.0))
+    (show-result (setf (bl:round-rect.radius.x rect) 90.0))
+    (show-result (setf (bl:round-rect.radius.y rect) 90.0))
 
     (show-result (bl:context-fill-geometry ctx bl:+geometry-type-round-rect+ rect))
     (show-result (bl:context-end ctx))
