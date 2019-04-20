@@ -16,6 +16,6 @@
 ;; OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 (defpackage :blend2d
-  (:use #:cl #:j-utils #:alexandria)
+  (:use #:cl)
   (:nicknames #:bl)
   (:export ))

@@ -20,7 +20,7 @@
   :license  "ISC"
   :version "0.0.1"
   :serial t
-  :depends-on (#:cffi #:cl-autowrap/libffi #:j-utils)
+  :depends-on (#:cffi #:cl-autowrap/libffi)
   :components ((:file "package")
                (:file "blend2d"))
   :in-order-to ((test-op (test-op blend2d.test))))

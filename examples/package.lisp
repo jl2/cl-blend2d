@@ -16,4 +16,11 @@
 
 (defpackage :blend2d.examples
   (:use #:cl #:j-utils #:alexandria #:blend2d)
-  (:export #:random-circles))
+  (:export #:random-circles
+           #:getting-started-1
+           #:getting-started-2
+           #:getting-started-3
+           #:getting-started-4
+           #:getting-started-5
+           #:getting-started-6
+           #:getting-started-7))

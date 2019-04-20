@@ -26,9 +26,12 @@
   :version "0.0.1"
   :serial t
   :depends-on ( :blend2d
-                  :fiveam)
+                :j-utils
+                :alexandria)
   
   :components ((:module "examples"
                         :components 
                         ((:file "package")
+                         (:file "getting-started-1")
+                         (:file "getting-started-2")
                          (:file "low-level")))))
