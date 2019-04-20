@@ -49,6 +49,7 @@
     (show-result (bl:context-end ctx))
 
     
+    (show-result (bl:image-codec-init codec))
     (show-result (bl:image-codec-find-by-name codec (bl:image-codec-built-in-codecs) "BMP"))
     (when (uiop/filesystem:file-exists-p file-name)
       (delete-file file-name))

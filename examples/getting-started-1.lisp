@@ -17,6 +17,7 @@
 (in-package :blend2d.examples)
 
 (defun getting-started-1 (file-name &key (width 800) (height 800))
+  (ensure-directories-exist file-name)
   (let ((img (show-result (autowrap:alloc 'bl:image-core)))
         (ctx (show-result (autowrap:alloc 'bl:context-core)))
         (path (show-result (autowrap:alloc 'bl:path-core)))
@@ -39,6 +40,7 @@
 
     (show-result (bl:context-end ctx))
 
+    (bl:image-codec-init codec)
     (show-result (bl:image-codec-find-by-name codec (bl:image-codec-built-in-codecs) "BMP"))
     (when (uiop/filesystem:file-exists-p file-name)
       (delete-file file-name))

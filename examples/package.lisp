@@ -17,6 +17,7 @@
 (defpackage :blend2d.examples
   (:use #:cl #:j-utils #:alexandria #:blend2d)
   (:export #:random-circles
+           #:random-lines
            #:getting-started-1
            #:getting-started-2
            #:getting-started-3
