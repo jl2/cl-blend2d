@@ -18,4 +18,4 @@
 (defpackage :blend2d
   (:use #:cl #:blll)
   (:nicknames #:bl)
-  (:export #:do-stuff))
+  (:export #:with-objects))

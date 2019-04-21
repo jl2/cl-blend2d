@@ -18,5 +18,13 @@
 (in-package :blend2d)
 
 
-(defun do-stuff ()
-  )
+(defmacro with-objects ((&rest object-definitions) &body body)
+  (let ((alloc-defs (mapcar (lambda (def)
+                              (list (car def) (list 'autowrap:alloc (cadr def))))
+                            object-definitions))
+        (free-calls (reverse (mapcar (lambda (def)
+                                       (list 'autowrap:free (car def)))
+                                     object-definitions))))
+    `(let (,@alloc-defs)
+       ,@body
+       ,@free-calls)))
