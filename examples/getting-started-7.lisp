@@ -1,4 +1,4 @@
-;;;; getting-started-3.lisp
+;;;; getting-started-7.lisp
 ;;
 ;; Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
 
@@ -16,7 +16,7 @@
 
 (in-package :blend2d.examples)
 
-(defun getting-started-3 (file-name &key (texture-file-name "texture.jpeg") (width 800) (height 800))
+(defun getting-started-7 (file-name &key (texture-file-name "texture.jpeg") (width 800) (height 800))
   (let ((img  (autowrap:alloc 'bl:image-core))
         (texture  (autowrap:alloc 'bl:image-core))
         (pattern  (autowrap:alloc 'bl:pattern-core))
@@ -37,6 +37,9 @@
     (bl:pattern-init-as pattern texture (cffi:null-pointer) bl:+extend-mode-repeat+ matrix)
     (bl:context-set-fill-style ctx pattern)
 
+    (cffi:with-foreign-array (arr #(0.785398 240.0 240.0) '(:array :double 3))
+      (bl:context-matrix-op ctx bl:+matrix2d-op-rotate-pt+ arr))
+    
     (bl:context-set-comp-op ctx bl:+comp-op-src-over+)
 
     (setf (bl:round-rect.x rect) 40.0)
@@ -45,6 +48,7 @@
     (setf (bl:round-rect.h rect) 400.0)
     (setf (bl:round-rect.radius.x rect) 45.0)
     (setf (bl:round-rect.radius.y rect) 45.0)
+
     (bl:context-fill-geometry ctx bl:+geometry-type-round-rect+ rect)
     (bl:context-end ctx)
     (bl:image-codec-init codec)

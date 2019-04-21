@@ -36,10 +36,10 @@
     (setf (bl:linear-gradient-values.x1 linear) 0.0)
     (setf (bl:linear-gradient-values.y1 linear) 480.0)
 
-    (show-result (bl:gradient-init-as grad
-                                      bl:+gradient-type-linear+
-                                      linear
-                                      bl:+extend-mode-pad+ (cffi:null-pointer) 0  (cffi:null-pointer)))
+    (bl:gradient-init-as grad
+                         bl:+gradient-type-linear+
+                         linear
+                         bl:+extend-mode-pad+ (cffi:null-pointer) 0  (cffi:null-pointer))
     (bl:gradient-add-stop-rgba32 grad 0.0 #16rffffffff)
     (bl:gradient-add-stop-rgba32 grad 0.5 #16rff5fafdf)
     (bl:gradient-add-stop-rgba32 grad 1.0 #16rff2f5fdf)
@@ -50,8 +50,8 @@
     (setf (bl:round-rect.y rect) 40.0)
     (setf (bl:round-rect.w rect) 400.0)
     (setf (bl:round-rect.h rect) 400.0)
-    (setf (bl:round-rect.radius.x rect) 90.0)
-    (setf (bl:round-rect.radius.y rect) 90.0)
+    (setf (bl:round-rect.radius.x rect) 45.0)
+    (setf (bl:round-rect.radius.y rect) 45.0)
 
     (bl:context-fill-geometry ctx bl:+geometry-type-round-rect+ rect)
     (bl:context-end ctx)
