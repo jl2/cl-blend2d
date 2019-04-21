@@ -33,7 +33,11 @@
                                    ("^BL(.*)" () "\\1")
                                    ("^bl(.*)" () "\\1"))
                     
-                    :exclude-definitions ("^va_list$" "Random" "Signal" "abort" "abs")
+                    :exclude-definitions ("^va_list$"
+                                          "Random"
+                                          "Signal"
+                                          "abort"
+                                          "abs")
                     :symbol-exceptions (("random" . "bl-random")
                                         ("signal" . "bl-signal")
                                         ("abort" . "bl-abort")

@@ -17,6 +17,16 @@
 
 (in-package :blend2d)
 
+(loop for sym being the external-symbols of :blend2d.ll
+              for ssym = (symbol-name sym) then (symbol-name sym)
+              when (not (or (cl-ppcre:scan "-IMPL" ssym)
+                         (cl-ppcre:scan ".IMPL\*" ssym)
+                         (cl-ppcre:scan "^\\+__" ssym)
+                         (cl-ppcre:scan "^__" ssym)
+                         (cl-ppcre:scan "&" ssym)
+                         (cl-ppcre:scan "(_|-)H+" ssym)
+                         (cl-ppcre:scan "PTHREAD" ssym)))
+   collect (export sym))
 
 (defmacro with-objects ((&rest object-definitions) &body body)
   (let ((alloc-defs (mapcar (lambda (def)

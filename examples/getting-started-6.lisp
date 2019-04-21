@@ -17,63 +17,56 @@
 (in-package :blend2d.examples)
 
 (defun getting-started-6 (file-name &key (width 480) (height 480))
-  (let ((img (autowrap:alloc 'blll:image-core))
-        (ctx (autowrap:alloc 'blll:context-core))
-        (path (autowrap:alloc 'blll:path-core))
-        (codec (autowrap:alloc 'blll:image-codec-core))
-        (linear (autowrap:alloc 'blll:linear-gradient-values))
-        (grad (autowrap:alloc 'blll:gradient-core)))
+  (bl:with-objects ((img 'bl:image-core)
+                    (ctx 'bl:context-core)
+                    (path 'bl:path-core)
+                    (codec 'bl:image-codec-core)
+                    (linear 'bl:linear-gradient-values)
+                    (grad 'bl:gradient-core))
 
-    (blll:image-init-as img width height blll:+format-prgb32+)
+    (bl:image-init-as img width height bl:+format-prgb32+)
 
-    (blll:context-init-as ctx img (cffi:null-pointer))
-    (blll:context-set-comp-op ctx blll:+comp-op-src-copy+)
-    (blll:context-fill-all ctx)
+    (bl:context-init-as ctx img (cffi:null-pointer))
+    (bl:context-set-comp-op ctx bl:+comp-op-src-copy+)
+    (bl:context-fill-all ctx)
 
-    (setf (blll:linear-gradient-values.x0 linear) 0.0d0)
-    (setf (blll:linear-gradient-values.y0 linear) 0.0d0)
-    (setf (blll:linear-gradient-values.x1 linear) 0.0d0)
-    (setf (blll:linear-gradient-values.y1 linear) 480.0d0)
+    (setf (bl:linear-gradient-values.x0 linear) 0.0d0)
+    (setf (bl:linear-gradient-values.y0 linear) 0.0d0)
+    (setf (bl:linear-gradient-values.x1 linear) 0.0d0)
+    (setf (bl:linear-gradient-values.y1 linear) 480.0d0)
 
-    (blll:gradient-init-as grad
-                         blll:+gradient-type-linear+
+    (bl:gradient-init-as grad
+                         bl:+gradient-type-linear+
                          linear
-                         blll:+extend-mode-pad+ (cffi:null-pointer) 0  (cffi:null-pointer))
-    (blll:gradient-add-stop-rgba32 grad 0.0d0 #16rffffffff)
-    (blll:gradient-add-stop-rgba32 grad 1.0d0 #16rff1f7fff)
+                         bl:+extend-mode-pad+ (cffi:null-pointer) 0  (cffi:null-pointer))
+    (bl:gradient-add-stop-rgba32 grad 0.0d0 #16rffffffff)
+    (bl:gradient-add-stop-rgba32 grad 1.0d0 #16rff1f7fff)
 
 
-    (blll:path-init path)
-    (blll:path-move-to path 119.0d0 49.0d0)
-    (blll:path-cubic-to path
+    (bl:path-init path)
+    (bl:path-move-to path 119.0d0 49.0d0)
+    (bl:path-cubic-to path
                       259.0d0 29.0d0
                       99.0d0 279.0d0
                       275.0d0 267.0d0)
-    (blll:path-cubic-to path
+    (bl:path-cubic-to path
                       537.0d0 245.0d0
                       300.0d0 -170.0d0
                       274.0d0 430.0d0)
 
-    (blll:context-set-comp-op ctx blll:+comp-op-src-over+)
-    (blll:context-set-stroke-style ctx grad)
-    (blll:context-set-stroke-width ctx 15.0d0)
-    (blll:context-set-stroke-cap ctx blll:+stroke-cap-position-start+ blll:+stroke-cap-round+)
-    (blll:context-set-stroke-cap ctx blll:+stroke-cap-position-end+ blll:+stroke-cap-butt+)
-    #+sbcl (sb-int:with-float-traps-masked (:invalid) (blll:context-stroke-geometry ctx blll:+geometry-type-path+ path))
-    #-sbcl (blll:context-stroke-geometry ctx blll:+geometry-type-path+ path)
+    (bl:context-set-comp-op ctx bl:+comp-op-src-over+)
+    (bl:context-set-stroke-style ctx grad)
+    (bl:context-set-stroke-width ctx 15.0d0)
+    (bl:context-set-stroke-cap ctx bl:+stroke-cap-position-start+ bl:+stroke-cap-round+)
+    (bl:context-set-stroke-cap ctx bl:+stroke-cap-position-end+ bl:+stroke-cap-butt+)
+    #+sbcl (sb-int:with-float-traps-masked (:invalid) (bl:context-stroke-geometry ctx bl:+geometry-type-path+ path))
+    #-sbcl (bl:context-stroke-geometry ctx bl:+geometry-type-path+ path)
 
-    (blll:context-end ctx)
+    (bl:context-end ctx)
 
-    (blll:image-codec-init codec)
-    (blll:image-codec-find-by-name codec (blll:image-codec-built-in-codecs) "BMP")
+    (bl:image-codec-init codec)
+    (bl:image-codec-find-by-name codec (bl:image-codec-built-in-codecs) "BMP")
     (when (uiop/filesystem:file-exists-p file-name)
       (delete-file file-name))
 
-    (blll:image-write-to-file img file-name codec)
-
-    (autowrap:free grad)
-    (autowrap:free linear)
-    (autowrap:free codec)
-    (autowrap:free path)
-    (autowrap:free img)
-    (autowrap:free ctx)))
+    (bl:image-write-to-file img file-name codec)))
