@@ -46,7 +46,7 @@
     (when (uiop/filesystem:file-exists-p file-name)
       (delete-file file-name))
 
-    (bl:image-write-to-file img (format nil file-name count) codec)))
+    (bl:image-write-to-file img file-name codec)))
 
 (defun random-lines (count file-name &key (width 1600) (height 1600) (max-width 16.0))
   (ensure-directories-exist file-name)
@@ -62,11 +62,12 @@
       (bl:context-set-comp-op ctx bl:+comp-op-src-copy+)
       (bl:context-fill-all ctx)
       (dotimes (i count)
-        (setf (bl:line.p0.x line) (random fwidth))
-        (setf (bl:line.p1.x line) (random fwidth))
+        (setf (bl:line.x0 line) (random fwidth))
+        (setf (bl:line.y0 line) (random fheight))
 
-        (setf (bl:line.p0.y line) (random fheight))
-        (setf (bl:line.p1.y line) (random fheight))
+        (setf (bl:line.x1 line) (random fwidth))
+        (setf (bl:line.y1 line) (random fheight))
+
         (bl:context-set-stroke-width ctx  (random max-width))
         (bl:context-set-comp-op ctx bl:+comp-op-src-over+)
         (bl:context-set-stroke-style-rgba32 ctx (random #16rffffffff))
@@ -77,4 +78,4 @@
       (bl:image-codec-find-by-name codec (bl:image-codec-built-in-codecs) "BMP")
       (when (uiop/filesystem:file-exists-p file-name)
         (delete-file file-name))
-      (bl:image-write-to-file img (format nil file-name count) codec))))
+      (bl:image-write-to-file img file-name codec))))

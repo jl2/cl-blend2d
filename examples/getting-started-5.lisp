@@ -48,8 +48,8 @@
     (bl:gradient-add-stop-rgba32 rad-grad 0.0 #16rffffffff)
     (bl:gradient-add-stop-rgba32 rad-grad 1.0 #16rffff6f3f)
 
-    (setf (bl:circle.center.x circle) 180.0)
-    (setf (bl:circle.center.y circle) 180.0)
+    (setf (bl:circle.cx circle) 180.0)
+    (setf (bl:circle.cy circle) 180.0)
     (setf (bl:circle.r circle) 160.0)
     (bl:context-set-comp-op ctx bl:+comp-op-src-over+)
     (bl:context-set-fill-style ctx rad-grad)
@@ -72,8 +72,8 @@
     (setf (bl:round-rect.y rect) 195.0)
     (setf (bl:round-rect.w rect) 270.0)
     (setf (bl:round-rect.h rect) 270.0)
-    (setf (bl:round-rect.radius.x rect) 25.0)
-    (setf (bl:round-rect.radius.y rect) 25.0)
+    (setf (bl:round-rect.rx rect) 25.0)
+    (setf (bl:round-rect.ry rect) 25.0)
 
     (bl:context-set-comp-op ctx bl:+comp-op-difference+)
     (bl:context-set-fill-style ctx lin-grad)

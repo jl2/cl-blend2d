@@ -46,8 +46,8 @@
     (setf (bl:round-rect.y rect) 50.0)
     (setf (bl:round-rect.w rect) 380.0)
     (setf (bl:round-rect.h rect) 380.0)
-    (setf (bl:round-rect.radius.x rect) 80.5)
-    (setf (bl:round-rect.radius.y rect) 80.5)
+    (setf (bl:round-rect.rx rect) 80.5)
+    (setf (bl:round-rect.ry rect) 80.5)
 
     (bl:context-fill-geometry ctx bl:+geometry-type-round-rect+ rect)
     (bl:context-end ctx)
