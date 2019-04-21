@@ -15,12 +15,11 @@
 ;; OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 (asdf:defsystem #:blend2d
-  :description "Describe blend2d here"
+  :description "High level bindings to the Blend2D graphics library."
   :author "Jeremiah LaRocco <jeremiah_larocco@fastmail.com>"
   :license  "ISC"
-  :version "0.0.1"
+  :version "0.0.2"
   :serial t
-  :depends-on (#:cffi #:cl-autowrap/libffi)
+  :depends-on (#:cffi #:cl-autowrap/libffi #:blend2d.ll)
   :components ((:file "package")
-               (:file "blend2d"))
-  :in-order-to ((test-op (test-op blend2d.test))))
+               (:file "blend2d")))

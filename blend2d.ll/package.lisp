@@ -1,4 +1,4 @@
-;;;; blend2d.lisp 
+;;;; package.lisp 
 ;;
 ;; Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
 
@@ -15,8 +15,7 @@
 ;; ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 ;; OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-(in-package :blend2d)
-
-
-(defun do-stuff ()
-  )
+(defpackage :blend2d.ll
+  (:use #:cl)
+  (:nicknames #:blll)
+  (:export ))

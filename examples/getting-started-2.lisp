@@ -17,52 +17,52 @@
 (in-package :blend2d.examples)
 
 (defun getting-started-2 (file-name &key (width 800) (height 800))
-  (let ((img (autowrap:alloc 'bl:image-core))
-        (ctx (autowrap:alloc 'bl:context-core))
-        (path (autowrap:alloc 'bl:path-core))
-        (codec (autowrap:alloc 'bl:image-codec-core))
-        (linear (autowrap:alloc 'bl:linear-gradient-values))
-        (grad (autowrap:alloc 'bl:gradient-core))
-        (rect (autowrap:alloc 'bl:round-rect)))
+  (let ((img (autowrap:alloc 'blll:image-core))
+        (ctx (autowrap:alloc 'blll:context-core))
+        (path (autowrap:alloc 'blll:path-core))
+        (codec (autowrap:alloc 'blll:image-codec-core))
+        (linear (autowrap:alloc 'blll:linear-gradient-values))
+        (grad (autowrap:alloc 'blll:gradient-core))
+        (rect (autowrap:alloc 'blll:round-rect)))
 
-    (bl:image-init-as img width height bl:+format-prgb32+)
+    (blll:image-init-as img width height blll:+format-prgb32+)
 
-    (bl:context-init-as ctx img (cffi:null-pointer))
-    (bl:context-set-comp-op ctx bl:+comp-op-src-copy+)
-    (bl:context-fill-all ctx)
+    (blll:context-init-as ctx img (cffi:null-pointer))
+    (blll:context-set-comp-op ctx blll:+comp-op-src-copy+)
+    (blll:context-fill-all ctx)
 
-    (setf (bl:linear-gradient-values.x0 linear) 0.0)
-    (setf (bl:linear-gradient-values.y0 linear) 0.0)
-    (setf (bl:linear-gradient-values.x1 linear) 0.0)
-    (setf (bl:linear-gradient-values.y1 linear) 480.0)
+    (setf (blll:linear-gradient-values.x0 linear) 0.0)
+    (setf (blll:linear-gradient-values.y0 linear) 0.0)
+    (setf (blll:linear-gradient-values.x1 linear) 0.0)
+    (setf (blll:linear-gradient-values.y1 linear) 480.0)
 
-    (bl:gradient-init-as grad
-                         bl:+gradient-type-linear+
+    (blll:gradient-init-as grad
+                         blll:+gradient-type-linear+
                          linear
-                         bl:+extend-mode-pad+ (cffi:null-pointer) 0  (cffi:null-pointer))
-    (bl:gradient-add-stop-rgba32 grad 0.0 #16rffffffff)
-    (bl:gradient-add-stop-rgba32 grad 0.5 #16rff5fafdf)
-    (bl:gradient-add-stop-rgba32 grad 1.0 #16rff2f5fdf)
+                         blll:+extend-mode-pad+ (cffi:null-pointer) 0  (cffi:null-pointer))
+    (blll:gradient-add-stop-rgba32 grad 0.0 #16rffffffff)
+    (blll:gradient-add-stop-rgba32 grad 0.5 #16rff5fafdf)
+    (blll:gradient-add-stop-rgba32 grad 1.0 #16rff2f5fdf)
 
-    (bl:context-set-comp-op ctx bl:+comp-op-src-over+)
-    (bl:context-set-fill-style ctx grad)
-    (setf (bl:round-rect.x rect) 40.0)
-    (setf (bl:round-rect.y rect) 40.0)
-    (setf (bl:round-rect.w rect) 400.0)
-    (setf (bl:round-rect.h rect) 400.0)
-    (setf (bl:round-rect.radius.x rect) 45.0)
-    (setf (bl:round-rect.radius.y rect) 45.0)
+    (blll:context-set-comp-op ctx blll:+comp-op-src-over+)
+    (blll:context-set-fill-style ctx grad)
+    (setf (blll:round-rect.x rect) 40.0)
+    (setf (blll:round-rect.y rect) 40.0)
+    (setf (blll:round-rect.w rect) 400.0)
+    (setf (blll:round-rect.h rect) 400.0)
+    (setf (blll:round-rect.radius.x rect) 45.0)
+    (setf (blll:round-rect.radius.y rect) 45.0)
 
-    (bl:context-fill-geometry ctx bl:+geometry-type-round-rect+ rect)
-    (bl:context-end ctx)
+    (blll:context-fill-geometry ctx blll:+geometry-type-round-rect+ rect)
+    (blll:context-end ctx)
 
     
-    (bl:image-codec-init codec)
-    (bl:image-codec-find-by-name codec (bl:image-codec-built-in-codecs) "BMP")
+    (blll:image-codec-init codec)
+    (blll:image-codec-find-by-name codec (blll:image-codec-built-in-codecs) "BMP")
     (when (uiop/filesystem:file-exists-p file-name)
       (delete-file file-name))
 
-    (bl:image-write-to-file img file-name codec)
+    (blll:image-write-to-file img file-name codec)
 
     (autowrap:free rect)
     (autowrap:free grad)

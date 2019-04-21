@@ -1,7 +1,6 @@
-;;;; blend2d.lisp 
-;;
-;; Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
+;;;; blend2d.asd 
 
+;; Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
 
 ;; Permission to use, copy, modify, and/or distribute this software for any
 ;; purpose with or without fee is hereby granted, provided that the above
@@ -15,8 +14,14 @@
 ;; ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 ;; OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-(in-package :blend2d)
-
-
-(defun do-stuff ()
-  )
+(asdf:defsystem #:blend2d.ll
+  :description "Low level bindings to blend2d library."
+  :author "Jeremiah LaRocco <jeremiah_larocco@fastmail.com>"
+  :license  "ISC"
+  :version "0.0.2"
+  :serial t
+  :depends-on (#:cffi #:cl-autowrap/libffi)
+  :components ((:module "blend2d.ll"
+                        :components
+                        ((:file "package")
+                         (:file "blend2d.ll")))))

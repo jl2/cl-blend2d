@@ -15,7 +15,7 @@
 ;; OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 (defpackage :blend2d.examples
-  (:use #:cl #:j-utils #:alexandria #:blend2d)
+  (:use #:cl #:j-utils #:alexandria #:blend2d.ll)
   (:export #:random-circles
            #:random-lines
            #:getting-started-1

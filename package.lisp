@@ -16,6 +16,6 @@
 ;; OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 (defpackage :blend2d
-  (:use #:cl)
+  (:use #:cl #:blll)
   (:nicknames #:bl)
-  (:export ))
+  (:export #:do-stuff))
