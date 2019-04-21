@@ -16,14 +16,13 @@
 
 (in-package :blend2d.examples)
 
-(defun getting-started-7 (file-name &key (texture-file-name "texture.jpeg") (width 800) (height 800))
+(defun getting-started-7 (file-name &key (font-file-name "NotoSans-Regular.ttf") (width 480) (height 480))
   (let ((img  (autowrap:alloc 'bl:image-core))
-        (texture  (autowrap:alloc 'bl:image-core))
-        (pattern  (autowrap:alloc 'bl:pattern-core))
         (ctx  (autowrap:alloc 'bl:context-core))
         (codec  (autowrap:alloc 'bl:image-codec-core))
-        (matrix  (autowrap:alloc 'bl:matrix2d))
-        (rect  (autowrap:alloc 'bl:round-rect)))
+        (font (autowrap:alloc 'bl:font-core))
+        (face (autowrap:alloc 'bl:font-face-core))
+        (point (autowrap:alloc 'bl:point-i)))
 
     (bl:image-init-as img width height bl:+format-prgb32+)
 
@@ -31,35 +30,38 @@
     (bl:context-set-comp-op ctx bl:+comp-op-src-copy+)
     (bl:context-fill-all ctx)
 
-    (bl:matrix2d-set-identity matrix)
-    (bl:image-read-from-file texture texture-file-name (bl:image-codec-built-in-codecs))
+    (bl:font-face-init face)
+    (bl:font-face-create-from-file face font-file-name)
+    (bl:font-init font)
+    (bl:font-create-from-face font face 50.0f0)
 
-    (bl:pattern-init-as pattern texture (cffi:null-pointer) bl:+extend-mode-repeat+ matrix)
-    (bl:context-set-fill-style ctx pattern)
+    (bl:context-set-fill-style-rgba32 ctx #16rffffffff)
 
-    (cffi:with-foreign-array (arr #(0.785398 240.0 240.0) '(:array :double 3))
-      (bl:context-matrix-op ctx bl:+matrix2d-op-rotate-pt+ arr))
-    
-    (bl:context-set-comp-op ctx bl:+comp-op-src-over+)
+    (setf (bl:point-i.x point) 60)
+    (setf (bl:point-i.y point) 80)
 
-    (setf (bl:round-rect.x rect) 40.0)
-    (setf (bl:round-rect.y rect) 40.0)
-    (setf (bl:round-rect.w rect) 400.0)
-    (setf (bl:round-rect.h rect) 400.0)
-    (setf (bl:round-rect.radius.x rect) 45.0)
-    (setf (bl:round-rect.radius.y rect) 45.0)
+    (cffi:with-foreign-string (str "Hello Blend2D!")
+      (bl:context-fill-text-i ctx point font str bl:+size-max+ bl:+text-encoding-utf8+))
 
-    (bl:context-fill-geometry ctx bl:+geometry-type-round-rect+ rect)
+    (cffi:with-foreign-array (arr #(0.785398d0) '(:array :double 1))
+      (bl:context-matrix-op ctx bl:+matrix2d-op-rotate+ arr))
+
+    (setf (bl:point-i.x point) 250)
+    (setf (bl:point-i.y point) 80)
+
+    (cffi:with-foreign-string (str "Rotated Text!")
+      (bl:context-fill-text-i ctx point font str bl:+size-max+ bl:+text-encoding-utf8+))
     (bl:context-end ctx)
+
     (bl:image-codec-init codec)
     (bl:image-codec-find-by-name codec (bl:image-codec-built-in-codecs) "BMP")
     (when (uiop/filesystem:file-exists-p file-name)
       (delete-file file-name))
     (bl:image-write-to-file img file-name codec)
 
-    (autowrap:free rect)
-    (autowrap:free matrix)
+    (autowrap:free point)
+    (autowrap:free font)
+    (autowrap:free face)
     (autowrap:free codec)
-    (autowrap:free texture)
     (autowrap:free img)
     (autowrap:free ctx)))
