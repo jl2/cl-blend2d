@@ -59,7 +59,9 @@
     (bl:context-set-stroke-width ctx 15.0d0)
     (bl:context-set-stroke-cap ctx bl:+stroke-cap-position-start+ bl:+stroke-cap-round+)
     (bl:context-set-stroke-cap ctx bl:+stroke-cap-position-end+ bl:+stroke-cap-butt+)
-    (bl:context-stroke-geometry ctx bl:+geometry-type-path+ path)
+    #+sbcl (sb-int:with-float-traps-masked (:invalid) (bl:context-stroke-geometry ctx bl:+geometry-type-path+ path))
+    #-sbcl (bl:context-stroke-geometry ctx bl:+geometry-type-path+ path)
+    
     (bl:context-end ctx)
 
     
