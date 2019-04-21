@@ -16,14 +16,13 @@
 
 (in-package :blend2d.examples)
 
-(defun getting-started-6 (file-name &key (texture-file-name "texture.jpeg") (width 800) (height 800))
-  (let ((img  (autowrap:alloc 'bl:image-core))
-        (texture  (autowrap:alloc 'bl:image-core))
-        (pattern  (autowrap:alloc 'bl:pattern-core))
-        (ctx  (autowrap:alloc 'bl:context-core))
-        (codec  (autowrap:alloc 'bl:image-codec-core))
-        (matrix  (autowrap:alloc 'bl:matrix2d))
-        (rect  (autowrap:alloc 'bl:round-rect)))
+(defun getting-started-6 (file-name &key (width 480) (height 480))
+  (let ((img (autowrap:alloc 'bl:image-core))
+        (ctx (autowrap:alloc 'bl:context-core))
+        (path (autowrap:alloc 'bl:path-core))
+        (codec (autowrap:alloc 'bl:image-codec-core))
+        (linear (autowrap:alloc 'bl:linear-gradient-values))
+        (grad (autowrap:alloc 'bl:gradient-core)))
 
     (bl:image-init-as img width height bl:+format-prgb32+)
 
@@ -31,35 +30,49 @@
     (bl:context-set-comp-op ctx bl:+comp-op-src-copy+)
     (bl:context-fill-all ctx)
 
-    (bl:matrix2d-set-identity matrix)
-    (bl:image-read-from-file texture texture-file-name (bl:image-codec-built-in-codecs))
+    (setf (bl:linear-gradient-values.x0 linear) 0.0d0)
+    (setf (bl:linear-gradient-values.y0 linear) 0.0d0)
+    (setf (bl:linear-gradient-values.x1 linear) 0.0d0)
+    (setf (bl:linear-gradient-values.y1 linear) 480.0d0)
 
-    (bl:pattern-init-as pattern texture (cffi:null-pointer) bl:+extend-mode-repeat+ matrix)
-    (bl:context-set-fill-style ctx pattern)
+    (bl:gradient-init-as grad
+                         bl:+gradient-type-linear+
+                         linear
+                         bl:+extend-mode-pad+ (cffi:null-pointer) 0  (cffi:null-pointer))
+    (bl:gradient-add-stop-rgba32 grad 0.0d0 #16rffffffff)
+    (bl:gradient-add-stop-rgba32 grad 1.0d0 #16rff1f7fff)
 
-    (cffi:with-foreign-array (arr #(0.785398 240.0 240.0) '(:array :double 3))
-      (bl:context-matrix-op ctx bl:+matrix2d-op-rotate-pt+ arr))
-    
+
+    (bl:path-init path)
+    (bl:path-move-to path 119.0d0 49.0d0)
+    (bl:path-cubic-to path
+                      259.0d0 29.0d0
+                      99.0d0 279.0d0
+                      275.0d0 267.0d0)
+    (bl:path-cubic-to path
+                      537.0d0 245.0d0
+                      300.0d0 -170.0d0
+                      274.0d0 430.0d0)
+
     (bl:context-set-comp-op ctx bl:+comp-op-src-over+)
-
-    (setf (bl:round-rect.x rect) 40.0)
-    (setf (bl:round-rect.y rect) 40.0)
-    (setf (bl:round-rect.w rect) 400.0)
-    (setf (bl:round-rect.h rect) 400.0)
-    (setf (bl:round-rect.radius.x rect) 45.0)
-    (setf (bl:round-rect.radius.y rect) 45.0)
-
-    (bl:context-fill-geometry ctx bl:+geometry-type-round-rect+ rect)
+    (bl:context-set-stroke-style ctx grad)
+    (bl:context-set-stroke-width ctx 15.0d0)
+    (bl:context-set-stroke-cap ctx bl:+stroke-cap-position-start+ bl:+stroke-cap-round+)
+    (bl:context-set-stroke-cap ctx bl:+stroke-cap-position-end+ bl:+stroke-cap-butt+)
+    (bl:context-stroke-geometry ctx bl:+geometry-type-path+ path)
     (bl:context-end ctx)
+
+    
     (bl:image-codec-init codec)
     (bl:image-codec-find-by-name codec (bl:image-codec-built-in-codecs) "BMP")
     (when (uiop/filesystem:file-exists-p file-name)
       (delete-file file-name))
+
     (bl:image-write-to-file img file-name codec)
 
-    (autowrap:free rect)
-    (autowrap:free matrix)
+    (autowrap:free grad)
+    (autowrap:free linear)
     (autowrap:free codec)
-    (autowrap:free texture)
+    (autowrap:free path)
     (autowrap:free img)
     (autowrap:free ctx)))
