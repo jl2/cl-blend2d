@@ -61,10 +61,9 @@
     (bl:context-set-stroke-cap ctx bl:+stroke-cap-position-end+ bl:+stroke-cap-butt+)
     #+sbcl (sb-int:with-float-traps-masked (:invalid) (bl:context-stroke-geometry ctx bl:+geometry-type-path+ path))
     #-sbcl (bl:context-stroke-geometry ctx bl:+geometry-type-path+ path)
-    
+
     (bl:context-end ctx)
 
-    
     (bl:image-codec-init codec)
     (bl:image-codec-find-by-name codec (bl:image-codec-built-in-codecs) "BMP")
     (when (uiop/filesystem:file-exists-p file-name)
