@@ -17,13 +17,13 @@
 (in-package :blend2d.examples)
 
 (defun getting-started-4 (file-name &key (texture-file-name "texture.jpeg") (width 800) (height 800))
-  (bl:with-objects ((img  'bl:image-core)
-                    (texture  'bl:image-core)
-                    (pattern  'bl:pattern-core)
-                    (ctx  'bl:context-core)
-                    (codec  'bl:image-codec-core)
-                    (matrix  'bl:matrix2d)
-                    (rect  'bl:round-rect))
+  (bl:with-objects ((img  bl:image-core)
+                    (texture  bl:image-core)
+                    (pattern  bl:pattern-core)
+                    (ctx  bl:context-core)
+                    (codec  bl:image-codec-core)
+                    (matrix  bl:matrix2d)
+                    (rect  bl:round-rect))
 
     (bl:image-init-as img width height bl:+format-prgb32+)
 

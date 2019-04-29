@@ -17,12 +17,12 @@
 (in-package :blend2d.examples)
 
 (defun getting-started-6 (file-name &key (width 480) (height 480))
-  (bl:with-objects ((img 'bl:image-core)
-                    (ctx 'bl:context-core)
-                    (path 'bl:path-core)
-                    (codec 'bl:image-codec-core)
-                    (linear 'bl:linear-gradient-values)
-                    (grad 'bl:gradient-core))
+  (bl:with-objects ((img bl:image-core)
+                    (ctx bl:context-core)
+                    (path bl:path-core)
+                    (codec bl:image-codec-core)
+                    (linear bl:linear-gradient-values)
+                    (grad bl:gradient-core))
 
     (bl:image-init-as img width height bl:+format-prgb32+)
 

@@ -29,12 +29,28 @@
    collect (export sym))
 
 (defmacro with-objects ((&rest object-definitions) &body body)
-  (let ((alloc-defs (mapcar (lambda (def)
-                              (list (car def) (list 'autowrap:alloc (cadr def))))
-                            object-definitions))
-        (free-calls (reverse (mapcar (lambda (def)
-                                       (list 'autowrap:free (car def)))
-                                     object-definitions))))
-    `(let (,@alloc-defs)
-       ,@body
-       ,@free-calls)))
+  (alexandria:with-gensyms (result)
+    (let ((alloc-defs (mapcar (lambda (def)
+                                (list (car def) (list 'autowrap:alloc (list 'quote (cadr def)))))
+                              object-definitions))
+          (free-calls (reverse (mapcar (lambda (def)
+                                         (list 'progn
+                                               (let* ((type-name (string (cadr def)))
+                                                      (len-m-5 (- (length type-name) 5)))
+                                                 (when (and (> (length type-name) 6)
+                                                            (string= (subseq type-name len-m-5) "-CORE"))
+                                                   (list
+                                                    (intern (format nil "~a-RESET" (subseq type-name 0 len-m-5)) 'blll)
+                                                    (car def))))
+                                               (list 'autowrap:free (car def))))
+                                       object-definitions))))
+      `(let (,@alloc-defs
+             (,result nil))
+         (handler-case
+             (setf ,result (progn
+                             ,@body))
+           (t (err)
+             (format t "Caught ~a~%" err)))
+         ,@free-calls
+         ,result))))
+

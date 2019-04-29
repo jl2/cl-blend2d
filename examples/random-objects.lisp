@@ -20,10 +20,10 @@
 
 (defun random-circles (count file-name &key (width 800) (height 800) (max-radius 80.0))
   (ensure-directories-exist file-name)
-  (bl:with-objects ((img 'bl:image-core)
-                    (ctx 'bl:context-core)
-                    (circle 'bl:circle)
-                    (codec 'bl:image-codec-core))
+  (bl:with-objects ((img bl:image-core)
+                    (ctx bl:context-core)
+                    (circle bl:circle)
+                    (codec bl:image-codec-core))
 
     (bl:image-init-as img width height bl:+format-prgb32+)
     (bl:context-init-as ctx img (cffi:null-pointer))
@@ -50,10 +50,10 @@
 
 (defun random-lines (count file-name &key (width 1600) (height 1600) (max-width 16.0))
   (ensure-directories-exist file-name)
-  (bl:with-objects ((img 'bl:image-core)
-                    (ctx 'bl:context-core)
-                    (line 'bl:line)
-                    (codec 'bl:image-codec-core))
+  (bl:with-objects ((img bl:image-core)
+                    (ctx bl:context-core)
+                    (line bl:line)
+                    (codec bl:image-codec-core))
 
     (let ((fwidth (coerce width 'double-float))
           (fheight (coerce height 'double-float)))

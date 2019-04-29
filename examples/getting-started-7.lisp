@@ -17,12 +17,12 @@
 (in-package :blend2d.examples)
 
 (defun getting-started-7 (file-name &key (font-file-name "NotoSans-Regular.ttf") (width 480) (height 480))
-  (bl:with-objects ((img  'bl:image-core)
-                    (ctx  'bl:context-core)
-                    (codec  'bl:image-codec-core)
-                    (font 'bl:font-core)
-                    (face 'bl:font-face-core)
-                    (point 'bl:point-i))
+  (bl:with-objects ((img  bl:image-core)
+                    (ctx  bl:context-core)
+                    (codec  bl:image-codec-core)
+                    (font bl:font-core)
+                    (face bl:font-face-core)
+                    (point bl:point-i))
 
     (bl:image-init-as img width height bl:+format-prgb32+)
 

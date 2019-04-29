@@ -17,17 +17,17 @@
 (in-package :blend2d.examples)
 
 (defun getting-started-5 (file-name &key (width 480) (height 480))
-  (bl:with-objects ((img  'bl:image-core)
-        (ctx  'bl:context-core)
-        (codec  'bl:image-codec-core)
+  (bl:with-objects ((img  bl:image-core)
+        (ctx  bl:context-core)
+        (codec  bl:image-codec-core)
 
-        (radial-vals 'bl:radial-gradient-values)
-        (linear-vals 'bl:linear-gradient-values)
-        (rad-grad 'bl:gradient-core)
-        (lin-grad 'bl:gradient-core)
+        (radial-vals bl:radial-gradient-values)
+        (linear-vals bl:linear-gradient-values)
+        (rad-grad bl:gradient-core)
+        (lin-grad bl:gradient-core)
 
-        (circle  'bl:circle)
-        (rect  'bl:round-rect))
+        (circle  bl:circle)
+        (rect  bl:round-rect))
 
     ;; Initialize and clear image
     (bl:image-init-as img width height bl:+format-prgb32+)
