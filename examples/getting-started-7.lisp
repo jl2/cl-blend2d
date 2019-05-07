@@ -54,7 +54,7 @@
     (bl:context-end ctx)
 
     (bl:image-codec-init codec)
-    (bl:image-codec-find-by-name codec (bl:image-codec-built-in-codecs) "BMP")
+    (bl:image-codec-find-by-name codec "BMP" (cffi:null-pointer))
     (when (uiop/filesystem:file-exists-p file-name)
       (delete-file file-name))
     (bl:image-write-to-file img file-name codec)))

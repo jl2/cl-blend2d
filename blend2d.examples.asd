@@ -39,4 +39,5 @@
                          (:file "getting-started-5")
                          (:file "getting-started-6")
                          (:file "getting-started-7")
+                         (:file "getting-started-8")
                          (:file "random-objects")))))

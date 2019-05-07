@@ -32,7 +32,7 @@
     (bl:context-fill-all ctx)
 
     (bl:matrix2d-set-identity matrix)
-    (bl:image-read-from-file texture texture-file-name (bl:image-codec-built-in-codecs))
+    (bl:image-read-from-file texture texture-file-name (cffi:null-pointer))
 
     (bl:pattern-init-as pattern texture (cffi:null-pointer) bl:+extend-mode-repeat+ matrix)
 
@@ -52,7 +52,7 @@
     (bl:context-fill-geometry ctx bl:+geometry-type-round-rect+ rect)
     (bl:context-end ctx)
     (bl:image-codec-init codec)
-    (bl:image-codec-find-by-name codec (bl:image-codec-built-in-codecs) "BMP")
+    (bl:image-codec-find-by-name codec "BMP" 100 (cffi:null-pointer))
     (when (uiop/filesystem:file-exists-p file-name)
       (delete-file file-name))
     (bl:image-write-to-file img file-name codec)))

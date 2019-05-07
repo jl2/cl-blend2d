@@ -24,4 +24,5 @@
            #:getting-started-4
            #:getting-started-5
            #:getting-started-6
-           #:getting-started-7))
+           #:getting-started-7
+           #:getting-started-8))
