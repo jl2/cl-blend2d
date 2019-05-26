@@ -19,12 +19,12 @@
 
 (cffi:define-foreign-library blend2d-lib
     (:darwin (:or "libblend2d.dylib" "libblend2d"))
-    (:unix (:or "libblend2d.so" "libblend2d"))
+    (:unix (:or "libblend2d.so" "libblend2d" "blend2d"))
     (t (:default "libblend2d")))
 (cffi:use-foreign-library blend2d-lib)
 
 (autowrap:c-include #+darwin"/Users/jeremiahlarocco/oss_src/blend2d/src/blend2d.h"
-                    #+linux"/usr/local/include"
+                    #+linux"/home/jeremiah/oss_src/blend2d/blend2d/src/blend2d.h"
                     :sysincludes (list #+linux"/usr/include/x86_64-linux-gnu/"
                                        #+linux"/usr/include/x86_64-linux-gnu/c++/7/"
                                        #+darwin"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/")

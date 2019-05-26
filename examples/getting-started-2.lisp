@@ -59,7 +59,7 @@
 
     
     (bl:image-codec-init codec)
-    (bl:image-codec-find-by-name codec "BMP" (cffi:null-pointer))
+    (bl:image-codec-find-by-name codec "BMP" 1 (cffi:null-pointer))
     (when (uiop/filesystem:file-exists-p file-name)
       (delete-file file-name))
 
