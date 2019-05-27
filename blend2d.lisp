@@ -60,6 +60,9 @@
          ,@free-calls
          ,result))))
 
+(defun image-codec-by-name (codec name)
+  (bl:lookup-error (blll:image-codec-find-by-name codec name 3 (cffi:null-pointer))))
+
 (defun lookup-error (code &optional (stream t))
   (when (/= 0 code)
     (format stream "Blend2d Error: ~a~%"

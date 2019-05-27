@@ -16,7 +16,7 @@
 
 (in-package :blend2d.examples)
 
-(defun getting-started-3 (file-name &key (texture-file-name "texture.jpeg") (width 800) (height 800))
+(defun getting-started-3 (file-name &key (texture-file-name "texture.jpeg") (width 800) (height 800) (image-type "PNG"))
   (bl:with-objects ((img  bl:image-core)
                     (texture  bl:image-core)
                     (pattern  bl:pattern-core)
@@ -48,7 +48,7 @@
     (bl:context-fill-geometry ctx bl:+geometry-type-round-rect+ rect)
     (bl:context-end ctx)
     (bl:image-codec-init codec)
-    (bl:image-codec-find-by-name codec "BMP" (cffi:null-pointer))
+    (bl:image-codec-find-by-name codec image-type)
     (when (uiop/filesystem:file-exists-p file-name)
       (delete-file file-name))
     (bl:image-write-to-file img file-name codec)))

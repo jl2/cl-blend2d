@@ -16,7 +16,7 @@
 
 (in-package :blend2d.examples)
 
-(defun getting-started-8 (file-name &key (font-file-name "NotoSans-Regular.ttf") (width 480) (height 480))
+(defun getting-started-8 (file-name &key (font-file-name "NotoSans-Regular.ttf") (width 480) (height 480) (image-type "PNG"))
   ;; (bl:with-objects ((img  image-core)
   ;;                   (ctx  context-core)
   ;;                   (codec  image-codec-core)
@@ -64,7 +64,7 @@
   ;;   ;; (bl:context-end ctx)
 
   ;;   ;; (bl:image-codec-init codec)
-  ;;   ;; (bl:image-codec-find-by-name codec "BMP" 200 (cffi:null-pointer))
+  ;;   ;; (bl:image-codec-by-name codec image-type)
   ;;   ;; (when (uiop/filesystem:file-exists-p file-name)
   ;;   ;;   (delete-file file-name))
   ;;   ;; (bl:image-write-to-file img file-name codec))

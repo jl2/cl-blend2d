@@ -41,7 +41,7 @@
         (bl:context-fill-geometry ctx bl:+geometry-type-circle+ circle)))
     (bl:context-end ctx)
     (bl:image-codec-init codec)
-    (bl:image-codec-find-by-name codec "BMP" (cffi:null-pointer))
+    (bl:image-codec-find-by-name codec "BMP")
 
     (when (uiop/filesystem:file-exists-p file-name)
       (delete-file file-name))
@@ -75,7 +75,7 @@
       (bl:context-end ctx)
 
       (bl:image-codec-init codec)
-      (bl:image-codec-find-by-name codec "BMP" (cffi:null-pointer))
+      (bl:image-codec-find-by-name codec "BMP")
       (when (uiop/filesystem:file-exists-p file-name)
         (delete-file file-name))
       (bl:image-write-to-file img file-name codec))))

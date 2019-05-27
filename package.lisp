@@ -18,4 +18,7 @@
 (defpackage :blend2d
   (:use #:cl #:blll)
   (:nicknames #:bl)
-  (:export #:with-objects #:lookup-error))
+  (:export #:with-objects
+           #:lookup-error
+           #:image-codec-by-name
+           ))

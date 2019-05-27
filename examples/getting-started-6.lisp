@@ -16,7 +16,7 @@
 
 (in-package :blend2d.examples)
 
-(defun getting-started-6 (file-name &key (width 480) (height 480))
+(defun getting-started-6 (file-name &key (width 480) (height 480) (image-type "PNG"))
   (bl:with-objects ((img bl:image-core)
                     (ctx bl:context-core)
                     (path bl:path-core)
@@ -65,7 +65,7 @@
     (bl:context-end ctx)
 
     (bl:image-codec-init codec)
-    (bl:image-codec-find-by-name codec "BMP" (cffi:null-pointer))
+    (bl:image-codec-find-by-name codec image-type)
     (when (uiop/filesystem:file-exists-p file-name)
       (delete-file file-name))
 
