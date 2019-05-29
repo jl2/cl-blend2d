@@ -61,7 +61,12 @@
          ,result))))
 
 (defun image-codec-by-name (codec name)
-  (bl:lookup-error (blll:image-codec-find-by-name codec name 3 (cffi:null-pointer))))
+  (blll:image-codec-find-by-name
+   codec
+   name
+   ;; Assume (sizeof ulong) as size of size_t and corresponding max value for SIZE_MAX
+   (1- (ash 1 (* 8 (cffi:foreign-type-size :ulong))))
+   (cffi:null-pointer)))
 
 (defun lookup-error (code &optional (stream t))
   (when (/= 0 code)

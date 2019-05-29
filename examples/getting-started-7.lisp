@@ -31,7 +31,7 @@
     (bl:context-fill-all ctx)
 
     (bl:font-face-init face)
-    (bl:font-face-create-from-file face font-file-name)
+    (bl:font-face-create-from-file face font-file-name 0)
     (bl:font-init font)
     (bl:font-create-from-face font face 50.0f0)
 
@@ -54,7 +54,7 @@
     (bl:context-end ctx)
 
     (bl:image-codec-init codec)
-    (bl:image-codec-find-by-name codec image-type)
+    (bl:image-codec-by-name codec image-type)
     (when (uiop/filesystem:file-exists-p file-name)
       (delete-file file-name))
     (bl:image-write-to-file img file-name codec)))

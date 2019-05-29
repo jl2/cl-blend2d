@@ -65,7 +65,7 @@
     (bl:context-end ctx)
 
     (bl:image-codec-init codec)
-    (bl:image-codec-find-by-name codec image-type)
+    (bl:image-codec-by-name codec image-type)
     (when (uiop/filesystem:file-exists-p file-name)
       (delete-file file-name))
 

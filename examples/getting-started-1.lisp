@@ -16,12 +16,13 @@
 
 (in-package :blend2d.examples)
 
-(defun getting-started-1 (file-name &key (width 800) (height 800) (image-type "PNG"))
+(defun getting-started-1 (file-name &key (width 800) (height 800) (image-type "BMP"))
   (ensure-directories-exist file-name)
   (bl:with-objects ((img bl:image-core)
                     (ctx bl:context-core)
                     (path bl:path-core)
                     (codec bl:image-codec-core))
+
     (bl:lookup-error (bl:image-init-as img width height bl:+format-prgb32+))
 
     (bl:lookup-error (bl:context-init-as ctx img (cffi:null-pointer)))
