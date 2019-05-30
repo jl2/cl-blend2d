@@ -19,6 +19,7 @@
   (:use #:cl #:blll)
   (:nicknames #:bl)
   (:export #:with-objects
+           #:with-image-context
            #:lookup-error
            #:image-codec-by-name
            ))
