@@ -18,19 +18,11 @@
 
 (defun getting-started-2 (file-name &key (width 800) (height 800) (image-type "PNG"))
   (ensure-directories-exist file-name)
-  (bl:with-objects ((img image-core)
-                    (ctx context-core)
-                    (path path-core)
-                    (codec image-codec-core)
-                    (linear linear-gradient-values)
-                    (grad gradient-core)
-                    (rect round-rect))
-
-    (bl:image-init-as img width height bl:+format-prgb32+)
-
-    (bl:context-init-as ctx img (cffi:null-pointer))
-    (bl:context-set-comp-op ctx bl:+comp-op-src-copy+)
-    (bl:context-fill-all ctx)
+  (bl:with-image-context* ((img ctx width height file-name image-type)
+                           ((path path-core)
+                            (linear linear-gradient-values)
+                            (grad gradient-core)
+                            (rect round-rect)))
 
     (setf (bl:linear-gradient-values.x0 linear) 0.0)
     (setf (bl:linear-gradient-values.y0 linear) 0.0)
@@ -54,13 +46,4 @@
     (setf (bl:round-rect.rx rect) 45.0)
     (setf (bl:round-rect.ry rect) 45.0)
 
-    (bl:context-fill-geometry ctx bl:+geometry-type-round-rect+ rect)
-    (bl:context-end ctx)
-
-    
-    (bl:image-codec-init codec)
-    (bl:image-codec-by-name codec image-type)
-    (when (uiop/filesystem:file-exists-p file-name)
-      (delete-file file-name))
-
-    (bl:image-write-to-file img file-name codec)))
+    (bl:context-fill-geometry ctx bl:+geometry-type-round-rect+ rect)))

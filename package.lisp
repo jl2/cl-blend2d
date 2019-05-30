@@ -20,6 +20,7 @@
   (:nicknames #:bl)
   (:export #:with-objects
            #:with-image-context
+           #:with-image-context*
            #:lookup-error
            #:image-codec-by-name
            ))

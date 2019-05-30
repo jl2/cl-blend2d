@@ -18,17 +18,8 @@
 
 (defun getting-started-1 (file-name &key (width 800) (height 800) (image-type "BMP"))
   (ensure-directories-exist file-name)
-  (bl:with-objects ((img bl:image-core)
-                    (ctx bl:context-core)
-                    (path bl:path-core)
-                    (codec bl:image-codec-core))
-
-    (bl:lookup-error (bl:image-init-as img width height bl:+format-prgb32+))
-
-    (bl:lookup-error (bl:context-init-as ctx img (cffi:null-pointer)))
-    (bl:lookup-error (bl:context-set-comp-op ctx bl:+comp-op-src-copy+))
-    (bl:lookup-error (bl:context-fill-all ctx))
-
+  (bl:with-image-context* ((img ctx width height file-name image-type)
+                           (path bl:path-core))
     (bl:lookup-error (bl:path-init path))
     (bl:lookup-error (bl:path-move-to path 26.0 31.0))
     (bl:lookup-error (bl:path-cubic-to path 642.0 132.0 587.0 -136.0 25.0 464.0))
@@ -36,13 +27,5 @@
 
     (bl:lookup-error (bl:context-set-comp-op ctx bl:+comp-op-src-over+))
     (bl:lookup-error (bl:context-set-fill-style-rgba32 ctx #16rffffffff))
-    (bl:lookup-error (bl:context-fill-path-d ctx path))
-
-    (bl:lookup-error (bl:context-end ctx))
-
-    (bl:lookup-error (bl:image-codec-init codec))
-    (bl:lookup-error (bl:image-codec-by-name codec image-type))
-    (when (uiop/filesystem:file-exists-p file-name)
-      (delete-file file-name))
-    (bl:lookup-error (bl:image-write-to-file img file-name codec))))
+    (bl:lookup-error (bl:context-fill-path-d ctx path))))
 

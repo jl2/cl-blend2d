@@ -60,7 +60,39 @@
          ,@free-calls
          ,result))))
 
-(defmacro with-image-context ((image context width height file-name codec-name) &body body)
+(defmacro with-image-context* (((image context width height file-name codec-name)
+                                (&rest object-definitions))
+                               &body body)
+  (alexandria:with-gensyms (result codec)
+    `(let ((,result nil))
+       (bl:with-objects ((,image  bl:image-core)
+                         (,context  bl:context-core)
+                         (,codec  bl:image-codec-core)
+                         ,object-definitions )
+         (handler-case
+             (progn 
+
+               (bl:image-init-as ,image ,width ,height bl:+format-prgb32+)
+               (bl:context-init-as ,context ,image (cffi:null-pointer))
+               (bl:context-set-comp-op ,context bl:+comp-op-src-copy+)
+               (bl:context-fill-all ,context)
+
+               (setf ,result (progn ,@body))
+
+               (bl:context-end ,context)
+               (bl:image-codec-init ,codec)
+               (bl:image-codec-by-name ,codec ,codec-name)
+               (when (uiop/filesystem:file-exists-p ,file-name)
+                 (delete-file ,file-name))
+               (bl:image-write-to-file ,image ,file-name ,codec)
+               ,result)
+           (t (err)
+             (setf ,result err)
+             (format t "Caught ~a~%" err)))
+         ,result))))
+
+(defmacro with-image-context ((image context width height file-name codec-name) 
+                              &body body)
   (alexandria:with-gensyms (result codec)
     `(let ((,result nil))
        (bl:with-objects ((,image  bl:image-core)
