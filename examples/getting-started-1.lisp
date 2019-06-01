@@ -19,6 +19,8 @@
 (defun getting-started-1 (file-name &key (width 800) (height 800) (image-type "BMP"))
   (ensure-directories-exist file-name)
   (bl:with-image-context* (img ctx file-name :codec-name image-type :width width :height height)
+      ((path path-core))
+      
     (bl:lookup-error (bl:path-init path))
     (bl:lookup-error (bl:path-move-to path 26.0 31.0))
     (bl:lookup-error (bl:path-cubic-to path 642.0 132.0 587.0 -136.0 25.0 464.0))

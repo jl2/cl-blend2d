@@ -17,19 +17,18 @@
 (in-package :blend2d.examples)
 
 (defun getting-started-3 (file-name &key (texture-file-name "texture.jpeg") (width 800) (height 800) (image-type "PNG"))
-  (bl:with-objects ((img  bl:image-core)
-                    (texture  bl:image-core)
-                    (pattern  bl:pattern-core)
-                    (ctx  bl:context-core)
-                    (codec  bl:image-codec-core)
-                    (matrix  bl:matrix2d)
-                    (rect  bl:round-rect))
-
-    (bl:image-init-as img width height bl:+format-prgb32+)
-
-    (bl:context-init-as ctx img (cffi:null-pointer))
-    (bl:context-set-comp-op ctx bl:+comp-op-src-copy+)
-    (bl:context-fill-all ctx)
+  (ensure-directories-exist file-name)
+  (bl:with-image-context* (img ctx file-name
+                               :width width
+                               :height height
+                               :codec-name image-type)
+      ((path path-core)
+       (texture  bl:image-core)
+       (pattern  bl:pattern-core)
+       (linear linear-gradient-values)
+       (grad gradient-core)
+       (matrix  bl:matrix2d)
+       (rect  bl:round-rect))
 
     (bl:matrix2d-set-identity matrix)
     (bl:image-read-from-file texture texture-file-name (cffi:null-pointer))
@@ -45,10 +44,4 @@
     (setf (bl:round-rect.h rect) 400.0)
     (setf (bl:round-rect.rx rect) 45.0)
     (setf (bl:round-rect.ry rect) 45.0)
-    (bl:context-fill-geometry ctx bl:+geometry-type-round-rect+ rect)
-    (bl:context-end ctx)
-    (bl:image-codec-init codec)
-    (bl:image-codec-by-name codec image-type)
-    (when (uiop/filesystem:file-exists-p file-name)
-      (delete-file file-name))
-    (bl:image-write-to-file img file-name codec)))
+    (bl:context-fill-geometry ctx bl:+geometry-type-round-rect+ rect)))

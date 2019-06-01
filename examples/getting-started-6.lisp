@@ -17,18 +17,14 @@
 (in-package :blend2d.examples)
 
 (defun getting-started-6 (file-name &key (width 480) (height 480) (image-type "PNG"))
-  (bl:with-objects ((img bl:image-core)
-                    (ctx bl:context-core)
-                    (path bl:path-core)
-                    (codec bl:image-codec-core)
-                    (linear bl:linear-gradient-values)
-                    (grad bl:gradient-core))
-
-    (bl:image-init-as img width height bl:+format-prgb32+)
-
-    (bl:context-init-as ctx img (cffi:null-pointer))
-    (bl:context-set-comp-op ctx bl:+comp-op-src-copy+)
-    (bl:context-fill-all ctx)
+  (bl:with-image-context* (img ctx file-name
+                               :width width
+                               :height height
+                               :codec-name image-type)
+      ((path bl:path-core)
+       (codec bl:image-codec-core)
+       (linear bl:linear-gradient-values)
+       (grad bl:gradient-core))
 
     (setf (bl:linear-gradient-values.x0 linear) 0.0d0)
     (setf (bl:linear-gradient-values.y0 linear) 0.0d0)
@@ -61,12 +57,4 @@
     (bl:context-set-stroke-cap ctx bl:+stroke-cap-position-end+ bl:+stroke-cap-butt+)
     #+sbcl (sb-int:with-float-traps-masked (:invalid) (bl:context-stroke-geometry ctx bl:+geometry-type-path+ path))
     #-sbcl (bl:context-stroke-geometry ctx bl:+geometry-type-path+ path)
-
-    (bl:context-end ctx)
-
-    (bl:image-codec-init codec)
-    (bl:image-codec-by-name codec image-type)
-    (when (uiop/filesystem:file-exists-p file-name)
-      (delete-file file-name))
-
-    (bl:image-write-to-file img file-name codec)))
+    ))

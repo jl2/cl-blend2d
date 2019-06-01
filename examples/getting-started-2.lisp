@@ -18,11 +18,14 @@
 
 (defun getting-started-2 (file-name &key (width 800) (height 800) (image-type "PNG"))
   (ensure-directories-exist file-name)
-  (bl:with-image-context* ((img ctx width height file-name image-type)
-                           (path path-core)
-                           (linear linear-gradient-values)
-                           (grad gradient-core)
-                           (rect round-rect))
+  (bl:with-image-context* (img ctx file-name
+                               :width width
+                               :height height
+                               :codec-name image-type)
+      ((path path-core)
+       (linear linear-gradient-values)
+       (grad gradient-core)
+       (rect round-rect))
 
     (setf (bl:linear-gradient-values.x0 linear) 0.0)
     (setf (bl:linear-gradient-values.y0 linear) 0.0)

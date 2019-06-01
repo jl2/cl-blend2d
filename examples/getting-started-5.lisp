@@ -17,23 +17,16 @@
 (in-package :blend2d.examples)
 
 (defun getting-started-5 (file-name &key (width 480) (height 480) (image-type "PNG"))
-  (bl:with-objects ((img  bl:image-core)
-        (ctx  bl:context-core)
-        (codec  bl:image-codec-core)
-
-        (radial-vals bl:radial-gradient-values)
-        (linear-vals bl:linear-gradient-values)
-        (rad-grad bl:gradient-core)
-        (lin-grad bl:gradient-core)
-
-        (circle  bl:circle)
-        (rect  bl:round-rect))
-
-    ;; Initialize and clear image
-    (bl:image-init-as img width height bl:+format-prgb32+)
-    (bl:context-init-as ctx img (cffi:null-pointer))
-    (bl:context-set-comp-op ctx bl:+comp-op-src-copy+)
-    (bl:context-fill-all ctx)
+  (bl:with-image-context* (img ctx file-name
+                               :width width
+                               :height height
+                               :codec-name image-type)
+      ((radial-vals bl:radial-gradient-values)
+       (linear-vals bl:linear-gradient-values)
+       (rad-grad bl:gradient-core)
+       (lin-grad bl:gradient-core)
+       (circle  bl:circle)
+       (rect  bl:round-rect))
 
     (setf (bl:radial-gradient-values.x0 radial-vals) 180.0)
     (setf (bl:radial-gradient-values.y0 radial-vals) 180.0)
@@ -78,10 +71,4 @@
     (bl:context-set-comp-op ctx bl:+comp-op-difference+)
     (bl:context-set-fill-style ctx lin-grad)
 
-    (bl:context-fill-geometry ctx bl:+geometry-type-round-rect+ rect)
-    (bl:context-end ctx)
-    (bl:image-codec-init codec)
-    (bl:image-codec-by-name codec image-type)
-    (when (uiop/filesystem:file-exists-p file-name)
-      (delete-file file-name))
-    (bl:image-write-to-file img file-name codec)))
+    (bl:context-fill-geometry ctx bl:+geometry-type-round-rect+ rect)))
