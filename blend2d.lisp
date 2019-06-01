@@ -28,6 +28,11 @@
                          (cl-ppcre:scan "PTHREAD" ssym)))
    collect (export sym))
 
+;; Copied from https://git.sr.ht/~jl2/j-utils
+(defun home-dir (path)
+  "Utility function to make relative path names relative to the user's home directory to work around Cairo weirdness."
+  (merge-pathnames path (user-homedir-pathname)))
+
 (defmacro with-objects ((&rest object-definitions) &body body)
   (alexandria:with-gensyms (result)
     (let ((alloc-defs (mapcar
@@ -60,15 +65,14 @@
          ,@free-calls
          ,result))))
 
-(defmacro with-image-context* (((image context width height file-name codec-name)
-                                (&rest object-definitions))
-                               &body body)
+(defmacro with-image-context* ((image context file-name &rest object-definitions &key (width 1200) (height 1200) (codec-name "BMP") &allow-other-keys)
+                                                          &body body)
   (alexandria:with-gensyms (result codec)
     `(let ((,result nil))
        (bl:with-objects ((,image  bl:image-core)
                          (,context  bl:context-core)
                          (,codec  bl:image-codec-core)
-                         ,object-definitions )
+                         ,@object-definitions)
          (handler-case
              (progn 
 
