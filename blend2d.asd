@@ -22,4 +22,6 @@
   :serial t
   :depends-on (#:cffi #:cl-autowrap/libffi #:blend2d.ll #:alexandria)
   :components ((:file "package")
-               (:file "blend2d")))
+               (:file "blend2d")
+               (:module "specs")
+               ))

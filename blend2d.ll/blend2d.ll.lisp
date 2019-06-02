@@ -29,7 +29,7 @@
                                        #+linux"/usr/include/x86_64-linux-gnu/c++/7/"
                                        #+darwin"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/")
                     :language "c"
-                    :spec-path '(blend2d)
+                    :spec-path '(blend2d specs)
                     :symbol-regex (("^BL_(.*)" () "\\1")
                                    ("^BL(.*)" () "\\1")
                                    ("^bl(.*)" () "\\1"))
