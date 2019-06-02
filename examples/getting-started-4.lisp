@@ -16,11 +16,12 @@
 
 (in-package :blend2d.examples)
 
-(defun getting-started-4 (file-name &key (texture-file-name "texture.jpeg") (width 800) (height 800) (image-type "PNG"))
-  (bl:with-image-context* (img ctx file-name
-                               :width width
-                               :height height
-                               :codec-name image-type)
+(defun getting-started-4 (file-name &key (texture-file-name "texture.jpeg") (width 800) (height 800) (image-type "BMP"))
+  (bl:with-image-context*
+      (img ctx file-name
+           :width width
+           :height height
+           :codec-name image-type)
       ((texture  bl:image-core)
        (pattern  bl:pattern-core)
        (codec  bl:image-codec-core)

@@ -31,7 +31,7 @@
 ;; Copied from https://git.sr.ht/~jl2/j-utils
 (defun home-dir (path)
   "Utility function to make relative path names relative to the user's home directory to work around Cairo weirdness."
-  (merge-pathnames path (user-homedir-pathname)))
+  (format nil "~a" (merge-pathnames path (user-homedir-pathname))))
 
 (defmacro with-objects ((&rest object-definitions) &body body)
   (alexandria:with-gensyms (result)
@@ -91,9 +91,9 @@
                (context-end ,context)
                (image-codec-init ,codec)
                (image-codec-by-name ,codec ,codec-name)
-               (when (uiop/filesystem:file-exists-p ,file-name)
-                 (delete-file ,file-name))
-               (image-write-to-file ,image ,file-name ,codec)
+               (when (uiop/filesystem:file-exists-p (home-dir ,file-name))
+                 (delete-file (home-dir ,file-name)))
+               (image-write-to-file ,image (home-dir ,file-name) ,codec)
                ,result)
            (t (err)
              (setf ,result err)
@@ -104,7 +104,7 @@
                               &body body)
   (alexandria:with-gensyms (result codec)
     `(let ((,result nil))
-       (bl:with-objects ((,image  image-core)
+       (with-objects ((,image  image-core)
                          (,context  context-core)
                          (,codec  image-codec-core))
          (handler-case
@@ -120,9 +120,9 @@
                (context-end ,context)
                (image-codec-init ,codec)
                (image-codec-by-name ,codec ,codec-name)
-               (when (uiop/filesystem:file-exists-p ,file-name)
-                 (delete-file ,file-name))
-               (image-write-to-file ,image ,file-name ,codec)
+               (when (uiop/filesystem:file-exists-p (home-dir ,file-name))
+                 (delete-file (home-dir ,file-name)))
+               (image-write-to-file ,image (home-dir ,file-name) ,codec)
                ,result)
            (t (err)
              (setf ,result err)

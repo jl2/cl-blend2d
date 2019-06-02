@@ -16,12 +16,13 @@
 
 (in-package :blend2d.examples)
 
-(defun getting-started-2 (file-name &key (width 800) (height 800) (image-type "PNG"))
+(defun getting-started-2 (file-name &key (width 800) (height 800) (image-type "BMP"))
   (ensure-directories-exist file-name)
-  (bl:with-image-context* (img ctx file-name
-                               :width width
-                               :height height
-                               :codec-name image-type)
+  (bl:with-image-context*
+      (img ctx file-name
+           :width width
+           :height height
+           :codec-name image-type)
       ((path path-core)
        (linear linear-gradient-values)
        (grad gradient-core)
@@ -35,7 +36,8 @@
     (bl:gradient-init-as grad
                          bl:+gradient-type-linear+
                          linear
-                         bl:+extend-mode-pad+ (cffi:null-pointer) 0  (cffi:null-pointer))
+                         bl:+extend-mode-pad+
+                         (cffi:null-pointer) 0  (cffi:null-pointer))
     (bl:gradient-add-stop-rgba32 grad 0.0 #16rffffffff)
     (bl:gradient-add-stop-rgba32 grad 0.5 #16rff5fafdf)
     (bl:gradient-add-stop-rgba32 grad 1.0 #16rff2f5fdf)

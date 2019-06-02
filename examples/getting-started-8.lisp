@@ -16,11 +16,12 @@
 
 (in-package :blend2d.examples)
 
-(defun getting-started-8 (file-name &key (font-file-name "NotoSans-Regular.ttf") (width 480) (height 480) (image-type "PNG"))
-  (bl:with-image-context* (img ctx file-name
-                               :width width
-                               :height height
-                               :codec-name image-type)
+(defun getting-started-8 (file-name &key (font-file-name "NotoSans-Regular.ttf") (width 480) (height 480) (image-type "BMP"))
+  (bl:with-image-context*
+      (img ctx file-name
+           :width width
+           :height height
+           :codec-name image-type)
       ((font font-core)
        (face font-face-core)
        (fm font-metrics)

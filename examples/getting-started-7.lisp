@@ -16,14 +16,15 @@
 
 (in-package :blend2d.examples)
 
-(defun getting-started-7 (file-name &key (font-file-name "NotoSans-Regular.ttf") (width 480) (height 480) (image-type "PNG"))
-    (bl:with-image-context* (img ctx file-name
-                                 :width width
-                                 :height height
-                                 :codec-name image-type)
-        ((font bl:font-core)
-         (face bl:font-face-core)
-         (point bl:point-i))
+(defun getting-started-7 (file-name &key (font-file-name "NotoSans-Regular.ttf") (width 480) (height 480) (image-type "BMP"))
+  (bl:with-image-context*
+      (img ctx file-name
+           :width width
+           :height height
+           :codec-name image-type)
+      ((font bl:font-core)
+       (face bl:font-face-core)
+       (point bl:point-i))
 
     (bl:font-face-init face)
     (bl:font-face-create-from-file face font-file-name 0)

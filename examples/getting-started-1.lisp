@@ -18,15 +18,19 @@
 
 (defun getting-started-1 (file-name &key (width 800) (height 800) (image-type "BMP"))
   (ensure-directories-exist file-name)
-  (bl:with-image-context* (img ctx file-name :codec-name image-type :width width :height height)
+  (bl:with-image-context*
+      (img ctx file-name
+           :codec-name image-type
+           :width width
+           :height height)
       ((path path-core))
       
-    (bl:lookup-error (bl:path-init path))
-    (bl:lookup-error (bl:path-move-to path 26.0 31.0))
-    (bl:lookup-error (bl:path-cubic-to path 642.0 132.0 587.0 -136.0 25.0 464.0))
-    (bl:lookup-error (bl:path-cubic-to path 882.0 404.0 144.0 267.0 27.0 31.0))
+    (bl:path-init path)
+    (bl:path-move-to path 26.0 31.0)
+    (bl:path-cubic-to path 642.0 132.0 587.0 -136.0 25.0 464.0)
+    (bl:path-cubic-to path 882.0 404.0 144.0 267.0 27.0 31.0)
 
-    (bl:lookup-error (bl:context-set-comp-op ctx bl:+comp-op-src-over+))
-    (bl:lookup-error (bl:context-set-fill-style-rgba32 ctx #16rffffffff))
-    (bl:lookup-error (bl:context-fill-path-d ctx path))))
+    (bl:context-set-comp-op ctx bl:+comp-op-src-over+)
+    (bl:context-set-fill-style-rgba32 ctx #16rffffffff)
+    (bl:context-fill-path-d ctx path)))
 

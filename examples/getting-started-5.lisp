@@ -16,11 +16,12 @@
 
 (in-package :blend2d.examples)
 
-(defun getting-started-5 (file-name &key (width 480) (height 480) (image-type "PNG"))
-  (bl:with-image-context* (img ctx file-name
-                               :width width
-                               :height height
-                               :codec-name image-type)
+(defun getting-started-5 (file-name &key (width 480) (height 480) (image-type "BMP"))
+  (bl:with-image-context*
+      (img ctx file-name
+           :width width
+           :height height
+           :codec-name image-type)
       ((radial-vals bl:radial-gradient-values)
        (linear-vals bl:linear-gradient-values)
        (rad-grad bl:gradient-core)
