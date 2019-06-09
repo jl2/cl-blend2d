@@ -21,6 +21,7 @@
   (:export #:with-objects
            #:with-image-context
            #:with-image-context*
+           #:nullp
            #:lookup-error
            #:image-codec-by-name
            ))

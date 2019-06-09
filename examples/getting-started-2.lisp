@@ -37,13 +37,14 @@
                          bl:+gradient-type-linear+
                          linear
                          bl:+extend-mode-pad+
-                         (cffi:null-pointer) 0  (cffi:null-pointer))
+                         (bl:nullp) 0  (bl:nullp))
     (bl:gradient-add-stop-rgba32 grad 0.0 #16rffffffff)
     (bl:gradient-add-stop-rgba32 grad 0.5 #16rff5fafdf)
     (bl:gradient-add-stop-rgba32 grad 1.0 #16rff2f5fdf)
 
     (bl:context-set-comp-op ctx bl:+comp-op-src-over+)
     (bl:context-set-fill-style ctx grad)
+
     (setf (bl:round-rect.x rect) 40.0)
     (setf (bl:round-rect.y rect) 40.0)
     (setf (bl:round-rect.w rect) 400.0)
