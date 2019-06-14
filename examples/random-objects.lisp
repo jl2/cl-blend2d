@@ -20,15 +20,12 @@
 
 (defun random-circles (count file-name &key (width 800) (height 800) (max-radius 80.0))
   (ensure-directories-exist file-name)
-  (bl:with-objects ((img bl:image-core)
-                    (ctx bl:context-core)
-                    (circle bl:circle)
-                    (codec bl:image-codec-core))
-
-    (bl:image-init-as img width height bl:+format-prgb32+)
-    (bl:context-init-as ctx img (cffi:null-pointer))
-    (bl:context-set-comp-op ctx bl:+comp-op-src-copy+)
-    (bl:context-fill-all ctx)
+  (bl:with-image-context*
+      (img ctx file-name
+           :codec-name "BMP"
+           :width width
+           :height height)
+      ((circle bl:circle))
     (dotimes (i count)
       (let* ((sx (random (coerce width 'double-float)))
              (sy (random (coerce height 'double-float)))
@@ -38,29 +35,22 @@
         (setf (bl:circle.r circle) radius)
         (bl:context-set-comp-op ctx bl:+comp-op-src-over+)
         (bl:context-set-fill-style-rgba32 ctx (random #16rffffffff))
-        (bl:context-fill-geometry ctx bl:+geometry-type-circle+ circle)))
-    (bl:context-end ctx)
-    (bl:image-codec-init codec)
-    (bl:image-codec-find-by-name codec "BMP")
+        (bl:context-fill-geometry ctx bl:+geometry-type-circle+ circle)))))
 
-    (when (uiop/filesystem:file-exists-p file-name)
-      (delete-file file-name))
-
-    (bl:image-write-to-file img file-name codec)))
 
 (defun random-lines (count file-name &key (width 1600) (height 1600) (max-width 16.0))
   (ensure-directories-exist file-name)
-  (bl:with-objects ((img bl:image-core)
-                    (ctx bl:context-core)
-                    (line bl:line)
-                    (codec bl:image-codec-core))
+  (bl:with-image-context*
+      (img ctx file-name
+           :codec-name "BMP"
+           :width width
+           :height height)
+      ((line bl:line))
+
+    
 
     (let ((fwidth (coerce width 'double-float))
           (fheight (coerce height 'double-float)))
-      (bl:image-init-as img width height bl:+format-prgb32+)
-      (bl:context-init-as ctx img (cffi:null-pointer))
-      (bl:context-set-comp-op ctx bl:+comp-op-src-copy+)
-      (bl:context-fill-all ctx)
       (dotimes (i count)
         (setf (bl:line.x0 line) (random fwidth))
         (setf (bl:line.y0 line) (random fheight))
@@ -71,11 +61,4 @@
         (bl:context-set-stroke-width ctx  (random max-width))
         (bl:context-set-comp-op ctx bl:+comp-op-src-over+)
         (bl:context-set-stroke-style-rgba32 ctx (random #16rffffffff))
-        (bl:context-stroke-geometry ctx bl:+geometry-type-line+ line))
-      (bl:context-end ctx)
-
-      (bl:image-codec-init codec)
-      (bl:image-codec-find-by-name codec "BMP")
-      (when (uiop/filesystem:file-exists-p file-name)
-        (delete-file file-name))
-      (bl:image-write-to-file img file-name codec))))
+        (bl:context-stroke-geometry ctx bl:+geometry-type-line+ line)))))
