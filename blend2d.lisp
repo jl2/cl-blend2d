@@ -28,6 +28,8 @@
                          (cl-ppcre:scan "PTHREAD" ssym)))
    collect (export sym))
 
+(defparameter *log-level* 1)
+
 (declaim (inline nullp home-dir image-codec-by-name))
 (defun nullp ()
   (cffi:null-pointer))
@@ -52,14 +54,15 @@
                            'progn
                            (let* ((type-name (string (cadr def)))
                                   (len-m-5 (- (length type-name) 5)))
-                             (if (and (> (length type-name) 6)
+                             (when (and (> (length type-name) 6)
                                         (string= (subseq type-name len-m-5) "-CORE"))
                                  (list 'lookup-error (list
                                                       (intern (format nil "~a-RESET" (subseq type-name 0 len-m-5)) 'blll)
                                                       (car def)))
-                                 (list 'lookup-error (list
-                                                      (intern (format nil "~a-RESET" type-name) 'blll)
-                                                      (car def)))))
+                                 ;; (list 'lookup-error (list
+                                 ;;                      (intern (format nil "~a-RESET" type-name) 'blll)
+                                 ;;                      (car def)))
+                                 ))
                            (list 'autowrap:free (car def))))
                         object-definitions))))
       `(let (,@alloc-defs
@@ -101,7 +104,7 @@
                (ensure-directories-exist ,file-name)
                (when (uiop/filesystem:file-exists-p (home-dir ,file-name))
                  (delete-file (home-dir ,file-name)))
-               (lookup-error (image-write-to-file ,image (home-dir ,file-name) ,codec))
+               (lookup-error (image-write-to-file ,image (format nil "~a" (home-dir ,file-name)) ,codec))
                ,result)
            (t (err)
              (setf ,result err)
@@ -227,8 +230,10 @@
 
 (defmacro lookup-error (&body form)
   (alexandria:with-gensyms (rval)
-    `(let ((,rval (progn ,@form)))
-       (if (/= 0 ,rval)
-         (format t "Blend2d Error: (~a) ~a~%" (car (quote ,form)) ,rval (cdr (assoc ,rval *error-lookup*)))
-         (format t "No error from ~a~%" (quote ,form)))
-       ,rval)))
+    `(progn
+       (when (> *log-level* 1) (format t "Calling ~a~%" (car (quote ,form))))
+       (let ((,rval (progn ,@form)))
+         (if (and (> *log-level* 0) (/= 0 ,rval))
+             (format t "Blend2d Error: ~a ~a ~a~%" (car (quote ,form)) ,rval (cdr (assoc ,rval *error-lookup*)))
+             (when (> *log-level* 1) (format t "No error from ~a~%" (quote ,form))))
+         ,rval))))

@@ -23,7 +23,6 @@
            :height height
            :codec-name image-type)
       ((path bl:path-core)
-       (codec bl:image-codec-core)
        (linear bl:linear-gradient-values)
        (grad bl:gradient-core))
 
@@ -32,30 +31,30 @@
     (setf (bl:linear-gradient-values.x1 linear) 0.0d0)
     (setf (bl:linear-gradient-values.y1 linear) 480.0d0)
 
-    (bl:gradient-init-as grad
+    (bl:lookup-error (bl:gradient-init-as grad
                          bl:+gradient-type-linear+
                          linear
-                         bl:+extend-mode-pad+ (cffi:null-pointer) 0  (cffi:null-pointer))
-    (bl:gradient-add-stop-rgba32 grad 0.0d0 #16rffffffff)
-    (bl:gradient-add-stop-rgba32 grad 1.0d0 #16rff1f7fff)
+                         bl:+extend-mode-pad+ (cffi:null-pointer) 0  (cffi:null-pointer)))
+    (bl:lookup-error (bl:gradient-add-stop-rgba32 grad 0.0d0 #16rffffffff))
+    (bl:lookup-error (bl:gradient-add-stop-rgba32 grad 1.0d0 #16rff1f7fff))
 
 
-    (bl:path-init path)
-    (bl:path-move-to path 119.0d0 49.0d0)
-    (bl:path-cubic-to path
+    (bl:lookup-error (bl:path-init path))
+    (bl:lookup-error (bl:path-move-to path 119.0d0 49.0d0))
+    (bl:lookup-error (bl:path-cubic-to path
                       259.0d0 29.0d0
                       99.0d0 279.0d0
-                      275.0d0 267.0d0)
-    (bl:path-cubic-to path
+                      275.0d0 267.0d0))
+    (bl:lookup-error (bl:path-cubic-to path
                       537.0d0 245.0d0
                       300.0d0 -170.0d0
-                      274.0d0 430.0d0)
+                      274.0d0 430.0d0))
 
-    (bl:context-set-comp-op ctx bl:+comp-op-src-over+)
-    (bl:context-set-stroke-style ctx grad)
-    (bl:context-set-stroke-width ctx 15.0d0)
-    (bl:context-set-stroke-cap ctx bl:+stroke-cap-position-start+ bl:+stroke-cap-round+)
-    (bl:context-set-stroke-cap ctx bl:+stroke-cap-position-end+ bl:+stroke-cap-butt+)
-    #+sbcl (sb-int:with-float-traps-masked (:invalid) (bl:context-stroke-geometry ctx bl:+geometry-type-path+ path))
-    #-sbcl (bl:context-stroke-geometry ctx bl:+geometry-type-path+ path)
+    (bl:lookup-error (bl:context-set-comp-op ctx bl:+comp-op-src-over+))
+    (bl:lookup-error (bl:context-set-stroke-style ctx grad))
+    (bl:lookup-error (bl:context-set-stroke-width ctx 15.0d0))
+    (bl:lookup-error (bl:context-set-stroke-cap ctx bl:+stroke-cap-position-start+ bl:+stroke-cap-round+))
+    (bl:lookup-error (bl:context-set-stroke-cap ctx bl:+stroke-cap-position-end+ bl:+stroke-cap-butt+))
+    #+sbcl(sb-int:with-float-traps-masked (:invalid) (bl:lookup-error (bl:context-stroke-geometry ctx bl:+geometry-type-path+ path)))
+    #-sbcl (bl:lookup-error (bl:context-stroke-geometry ctx bl:+geometry-type-path+ path))
     ))

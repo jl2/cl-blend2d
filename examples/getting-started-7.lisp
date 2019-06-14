@@ -26,24 +26,24 @@
        (face bl:font-face-core)
        (point bl:point-i))
 
-    (bl:font-face-init face)
-    (bl:font-face-create-from-file face font-file-name 0)
-    (bl:font-init font)
-    (bl:font-create-from-face font face 50.0f0)
+    (bl:lookup-error (bl:font-face-init face))
+    (bl:lookup-error (bl:font-face-create-from-file face font-file-name 0))
+    (bl:lookup-error (bl:font-init font))
+    (bl:lookup-error (bl:font-create-from-face font face 50.0f0))
 
-    (bl:context-set-fill-style-rgba32 ctx #16rffffffff)
+    (bl:lookup-error (bl:context-set-fill-style-rgba32 ctx #16rffffffff))
 
     (setf (bl:point-i.x point) 60)
     (setf (bl:point-i.y point) 80)
 
     (cffi:with-foreign-string (str "Hello Blend2D!")
-      (bl:context-fill-text-i ctx point font str bl:+size-max+ bl:+text-encoding-utf8+))
+      (bl:lookup-error (bl:context-fill-text-i ctx point font str bl:+size-max+ bl:+text-encoding-utf8+)))
 
     (cffi:with-foreign-array (arr #(0.785398d0) '(:array :double 1))
-      (bl:context-matrix-op ctx bl:+matrix2d-op-rotate+ arr))
+      (bl:lookup-error (bl:context-matrix-op ctx bl:+matrix2d-op-rotate+ arr)))
 
     (setf (bl:point-i.x point) 250)
     (setf (bl:point-i.y point) 80)
 
     (cffi:with-foreign-string (str "Rotated Text!")
-      (bl:context-fill-text-i ctx point font str bl:+size-max+ bl:+text-encoding-utf8+))))
+      (bl:lookup-error (bl:context-fill-text-i ctx point font str bl:+size-max+ bl:+text-encoding-utf8+)))))

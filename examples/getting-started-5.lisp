@@ -34,20 +34,20 @@
     (setf (bl:radial-gradient-values.x1 radial-vals) 180.0)
     (setf (bl:radial-gradient-values.y1 radial-vals) 180.0)
     (setf (bl:radial-gradient-values.r0 radial-vals) 180.0)
-    (bl:gradient-init-as rad-grad
+    (bl:lookup-error (bl:gradient-init-as rad-grad
                          bl:+gradient-type-radial+
                          radial-vals
-                         bl:+extend-mode-pad+ (cffi:null-pointer) 0  (cffi:null-pointer))
+                         bl:+extend-mode-pad+ (cffi:null-pointer) 0  (cffi:null-pointer)))
 
-    (bl:gradient-add-stop-rgba32 rad-grad 0.0 #16rffffffff)
-    (bl:gradient-add-stop-rgba32 rad-grad 1.0 #16rffff6f3f)
+    (bl:lookup-error (bl:gradient-add-stop-rgba32 rad-grad 0.0 #16rffffffff))
+    (bl:lookup-error (bl:gradient-add-stop-rgba32 rad-grad 1.0 #16rffff6f3f))
 
     (setf (bl:circle.cx circle) 180.0)
     (setf (bl:circle.cy circle) 180.0)
     (setf (bl:circle.r circle) 160.0)
-    (bl:context-set-comp-op ctx bl:+comp-op-src-over+)
-    (bl:context-set-fill-style ctx rad-grad)
-    (bl:context-fill-geometry ctx bl:+geometry-type-circle+ circle)
+    (bl:lookup-error (bl:context-set-comp-op ctx bl:+comp-op-src-over+))
+    (bl:lookup-error (bl:context-set-fill-style ctx rad-grad))
+    (bl:lookup-error (bl:context-fill-geometry ctx bl:+geometry-type-circle+ circle))
 
     
     (setf (bl:linear-gradient-values.x0 linear-vals) 195.0)
@@ -55,12 +55,12 @@
     (setf (bl:linear-gradient-values.x1 linear-vals) 470.0)
     (setf (bl:linear-gradient-values.y1 linear-vals) 470.0)
 
-    (bl:gradient-init-as lin-grad
+    (bl:lookup-error (bl:gradient-init-as lin-grad
                          bl:+gradient-type-linear+
                          linear-vals
-                         bl:+extend-mode-pad+ (cffi:null-pointer) 0  (cffi:null-pointer))
-    (bl:gradient-add-stop-rgba32 lin-grad 0.0 #16rffffffff)
-    (bl:gradient-add-stop-rgba32 lin-grad 1.0 #16rff3f9fff)
+                         bl:+extend-mode-pad+ (cffi:null-pointer) 0  (cffi:null-pointer)))
+    (bl:lookup-error (bl:gradient-add-stop-rgba32 lin-grad 0.0 #16rffffffff))
+    (bl:lookup-error (bl:gradient-add-stop-rgba32 lin-grad 1.0 #16rff3f9fff))
 
     (setf (bl:round-rect.x rect) 195.0)
     (setf (bl:round-rect.y rect) 195.0)
@@ -69,7 +69,7 @@
     (setf (bl:round-rect.rx rect) 25.0)
     (setf (bl:round-rect.ry rect) 25.0)
 
-    (bl:context-set-comp-op ctx bl:+comp-op-difference+)
-    (bl:context-set-fill-style ctx lin-grad)
+    (bl:lookup-error (bl:context-set-comp-op ctx bl:+comp-op-difference+))
+    (bl:lookup-error (bl:context-set-fill-style ctx lin-grad))
 
-    (bl:context-fill-geometry ctx bl:+geometry-type-round-rect+ rect)))
+    (bl:lookup-error (bl:context-fill-geometry ctx bl:+geometry-type-round-rect+ rect))))

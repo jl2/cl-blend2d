@@ -24,21 +24,22 @@
            :codec-name image-type)
       ((texture  bl:image-core)
        (pattern  bl:pattern-core)
-       (codec  bl:image-codec-core)
        (matrix  bl:matrix2d)
        (rect  bl:round-rect))
 
 
-    (bl:matrix2d-set-identity matrix)
-    (bl:image-read-from-file texture texture-file-name (cffi:null-pointer))
+    (bl:lookup-error (bl:matrix2d-set-identity matrix))
 
-    (bl:pattern-init-as pattern texture (cffi:null-pointer) bl:+extend-mode-repeat+ matrix)
+    (bl:lookup-error (bl:lookup-error (bl:image-init texture)))
+    (bl:lookup-error (bl:image-read-from-file texture texture-file-name (cffi:null-pointer)))
+
+    (bl:lookup-error (bl:pattern-init-as pattern texture (cffi:null-pointer) bl:+extend-mode-repeat+ matrix))
 
     (cffi:with-foreign-array (arr #(0.785398 240.0 240.0) '(:array :double 3))
-      (bl:context-matrix-op ctx bl:+matrix2d-op-rotate-pt+ arr))
+      (bl:lookup-error (bl:context-matrix-op ctx bl:+matrix2d-op-rotate-pt+ arr)))
     
-    (bl:context-set-comp-op ctx bl:+comp-op-src-over+)
-    (bl:context-set-fill-style ctx pattern)
+    (bl:lookup-error (bl:context-set-comp-op ctx bl:+comp-op-src-over+))
+    (bl:lookup-error (bl:context-set-fill-style ctx pattern))
 
     (setf (bl:round-rect.x rect) 50.0)
     (setf (bl:round-rect.y rect) 50.0)
@@ -47,4 +48,4 @@
     (setf (bl:round-rect.rx rect) 80.5)
     (setf (bl:round-rect.ry rect) 80.5)
 
-    (bl:context-fill-geometry ctx bl:+geometry-type-round-rect+ rect)))
+    (bl:lookup-error (bl:context-fill-geometry ctx bl:+geometry-type-round-rect+ rect))))

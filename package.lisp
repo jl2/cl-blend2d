@@ -18,7 +18,8 @@
 (defpackage :blend2d
   (:use #:cl #:blll)
   (:nicknames #:bl)
-  (:export #:with-objects
+  (:export #:*log-level*
+           #:with-objects
            #:with-image-context
            #:with-image-context*
            #:nullp

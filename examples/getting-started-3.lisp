@@ -23,21 +23,19 @@
            :width width
            :height height
            :codec-name image-type)
-      ((path path-core)
-       (texture  bl:image-core)
+      ((texture  bl:image-core)
        (pattern  bl:pattern-core)
-       (linear linear-gradient-values)
-       (grad gradient-core)
        (matrix  bl:matrix2d)
        (rect  bl:round-rect))
+    (bl:lookup-error (bl:matrix2d-set-identity matrix))
 
-    (bl:matrix2d-set-identity matrix)
-    (bl:image-read-from-file texture texture-file-name (cffi:null-pointer))
+    (bl:lookup-error (bl:image-init texture))
+    (bl:lookup-error (bl:image-read-from-file texture texture-file-name (cffi:null-pointer)))
 
-    (bl:pattern-init-as pattern texture (cffi:null-pointer) bl:+extend-mode-repeat+ matrix)
-    (bl:context-set-fill-style ctx pattern)
+    (bl:lookup-error (bl:pattern-init-as pattern texture (cffi:null-pointer) bl:+extend-mode-repeat+ matrix))
+    (bl:lookup-error (bl:context-set-fill-style ctx pattern))
 
-    (bl:context-set-comp-op ctx bl:+comp-op-src-over+)
+    (bl:lookup-error (bl:context-set-comp-op ctx bl:+comp-op-src-over+))
 
     (setf (bl:round-rect.x rect) 40.0)
     (setf (bl:round-rect.y rect) 40.0)
@@ -45,4 +43,4 @@
     (setf (bl:round-rect.h rect) 400.0)
     (setf (bl:round-rect.rx rect) 45.0)
     (setf (bl:round-rect.ry rect) 45.0)
-    (bl:context-fill-geometry ctx bl:+geometry-type-round-rect+ rect)))
+    (bl:lookup-error (bl:context-fill-geometry ctx bl:+geometry-type-round-rect+ rect))))
