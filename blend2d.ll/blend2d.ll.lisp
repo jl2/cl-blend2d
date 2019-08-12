@@ -23,7 +23,7 @@
     (t (:default "libblend2d")))
 (cffi:use-foreign-library blend2d-lib)
 
-(autowrap:c-include #+darwin"/Users/jeremiahlarocco/oss_src/blend2d/src/blend2d.h"
+(autowrap:c-include #+darwin"/Users/jeremiahlarocco/oss_src/blend2d/blend2d/src/blend2d.h"
                     #+linux"/home/jeremiah/oss_src/blend2d/blend2d/src/blend2d.h"
                     :sysincludes (list #+linux"/usr/include/x86_64-linux-gnu/"
                                        #+linux"/usr/include/x86_64-linux-gnu/c++/7/"

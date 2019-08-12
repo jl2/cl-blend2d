@@ -48,4 +48,4 @@
     (setf (bl:round-rect.rx rect) 80.5)
     (setf (bl:round-rect.ry rect) 80.5)
 
-    (bl:lookup-error (bl:context-fill-geometry ctx bl:+geometry-type-round-rect+ rect))))
+    (bl:context-fill-geometry ctx bl:+geometry-type-round-rect+ rect)))
