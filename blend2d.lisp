@@ -112,7 +112,11 @@
              (inspect err)))
          ,result))))
 
-(defmacro with-image-context ((image context width height file-name codec-name) 
+(defmacro with-image-context ((image context file-name
+                                     &key
+                                      (width 1200)
+                                      (height 1200)
+                                      (codec-name "BMP"))
                               &body body)
   (alexandria:with-gensyms (result codec)
     `(let ((,result nil))
