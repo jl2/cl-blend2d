@@ -253,11 +253,11 @@ If stroke-width is t then a stroke width of 1.0 is transformed, otherwise stroke
         (x-trans (- x-min))
         (y-trans (- y-min)))
     (cffi:with-foreign-array (arr (make-array 2 :initial-contents (list x-scale y-scale)) '(:array :double 2))
-      (bl:context-matrix-op ctx bl:+matrix2d-op-scale+ arr)
+      (context-matrix-op ctx +matrix2d-op-scale+ arr)
       (when stroke-width
         (typecase stroke-width
-          (number (bl:context-set-stroke-width ctx (* stroke-width (cffi:foreign-aref arr '(:arry :double) 0))))
-          (t (bl:context-set-stroke-width ctx (* 1.0 (cffi:foreign-aref arr '(:arry :double) 0)))))))
+          (number (context-set-stroke-width ctx (* stroke-width (cffi:foreign-aref arr '(:arry :double) 0))))
+          (t (context-set-stroke-width ctx (* 1.0 (cffi:foreign-aref arr '(:arry :double) 0)))))))
 
     (cffi:with-foreign-array (arr (make-array 2 :initial-contents (list x-trans y-trans)) '(:array :double 2))
-      (bl:context-matrix-op ctx bl:+matrix2d-op-translate+ arr))))
+      (context-matrix-op ctx +matrix2d-op-translate+ arr))))
