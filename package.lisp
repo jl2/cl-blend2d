@@ -22,8 +22,10 @@
            #:with-objects
            #:with-image-context
            #:with-image-context*
+           #:with-memory-image-context*
            #:nullp
            #:lookup-error
            #:image-codec-by-name
            #:setup-window
+           #:3d-to-2d
            ))

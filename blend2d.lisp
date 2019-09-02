@@ -109,6 +109,35 @@
            (t (err)
              (setf ,result err)
              (format t "Caught ~a~%" err)
+             ;; (inspect err)
+             ))
+         ,result))))
+
+(defmacro with-memory-image-context* ((image context
+                                      &key
+                                      (width 1200)
+                                      (height 1200))
+                                        (&rest object-definitions)
+                               &body body)
+  (alexandria:with-gensyms (result)
+    `(let ((,result nil))
+       (with-objects ((,image image-core)
+                      (,context context-core)
+                      ,@object-definitions)
+         (handler-case
+             (progn 
+               (lookup-error (image-init-as ,image ,width ,height +format-prgb32+))
+               (lookup-error (context-init-as ,context ,image (cffi:null-pointer)))
+               (lookup-error (context-set-comp-op ,context +comp-op-src-copy+))
+               (lookup-error (context-fill-all ,context))
+
+               (setf ,result (progn ,@body))
+
+               (lookup-error (context-end ,context))
+               ,result)
+           (t (err)
+             (setf ,result err)
+             (format t "Caught ~a~%" err)
              (inspect err)))
          ,result))))
 
@@ -143,7 +172,7 @@
                ,result)
            (t (err)
              (setf ,result err)
-             (format t "Caught ~a~%" err)))
+             (format t "Caught ~a~%~{~a~}~%" err (sb-debug:backtrace-as-list))))
          ,result))))
 
 (defun image-codec-by-name (codec name)
@@ -256,8 +285,13 @@ If stroke-width is t then a stroke width of 1.0 is transformed, otherwise stroke
       (context-matrix-op ctx +matrix2d-op-scale+ arr)
       (when stroke-width
         (typecase stroke-width
-          (number (context-set-stroke-width ctx (* stroke-width (cffi:foreign-aref arr '(:arry :double) 0))))
-          (t (context-set-stroke-width ctx (* 1.0 (cffi:foreign-aref arr '(:arry :double) 0)))))))
+          (number (context-set-stroke-width ctx (* stroke-width (cffi:foreign-aref arr '(:array :double 2) 0))))
+          (t (context-set-stroke-width ctx (* 1.0 (cffi:foreign-aref arr '(:array :double 2) 0)))))))
 
     (cffi:with-foreign-array (arr (make-array 2 :initial-contents (list x-trans y-trans)) '(:array :double 2))
       (context-matrix-op ctx +matrix2d-op-translate+ arr))))
+
+(declaim (inline 3d-to-2d))
+(defun 3d-to-2d (x y z theta gamma)
+  (values (- (* y (cos theta)) (* x (sin theta)))
+          (- (* z (sin gamma)) (* y (sin theta) (cos gamma)) (* x (sin theta) (cos gamma)))))
