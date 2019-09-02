@@ -242,3 +242,22 @@
              (format t "Blend2d Error: ~a ~a ~a~%" (car (quote ,form)) ,rval (cdr (assoc ,rval *error-lookup*)))
              (when (> *log-level* 1) (format t "No error from ~a~%" (quote ,form))))
          ,rval))))
+
+
+(defun setup-window (ctx x-min x-max y-min y-max width height &optional (stroke-width nil))
+  "Convenience function to setup a logical coordinate system with top-left coordinate (x-min y-min)
+and bottom right coordinate (x-max y-max).  If stroke-width is non-nil then the stroke width is also transformed.
+If stroke-width is t then a stroke width of 1.0 is transformed, otherwise stroke-width must be a number, which will be transformed into the new stroke-width."
+  (let ((x-scale (/ width (- x-max x-min)))
+        (y-scale (/ height (- y-max y-min)))
+        (x-trans (- x-min))
+        (y-trans (- y-min)))
+    (cffi:with-foreign-array (arr (make-array 2 :initial-contents (list x-scale y-scale)) '(:array :double 2))
+      (bl:context-matrix-op ctx bl:+matrix2d-op-scale+ arr)
+      (when stroke-width
+        (typecase stroke-width
+          (number (bl:context-set-stroke-width ctx (* stroke-width (cffi:foreign-aref arr '(:arry :double) 0))))
+          (t (bl:context-set-stroke-width ctx (* 1.0 (cffi:foreign-aref arr '(:arry :double) 0)))))))
+
+    (cffi:with-foreign-array (arr (make-array 2 :initial-contents (list x-trans y-trans)) '(:array :double 2))
+      (bl:context-matrix-op ctx bl:+matrix2d-op-translate+ arr))))

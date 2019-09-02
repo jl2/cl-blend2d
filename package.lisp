@@ -25,4 +25,5 @@
            #:nullp
            #:lookup-error
            #:image-codec-by-name
+           #:setup-window
            ))
