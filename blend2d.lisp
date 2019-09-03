@@ -71,7 +71,7 @@
              (setf ,result (progn
                              ,@body))
            (t (err)
-             (format t "Caught ~a~%" err)))
+             (format t "Caught ~a~%~{~a~}~%" err (sb-debug:backtrace-as-list))))
          ,@free-calls
          ,result))))
 
@@ -108,9 +108,7 @@
                ,result)
            (t (err)
              (setf ,result err)
-             (format t "Caught ~a~%" err)
-             ;; (inspect err)
-             ))
+             (format t "Caught ~a~%~{~a~}~%" err (sb-debug:backtrace-as-list))))
          ,result))))
 
 (defmacro with-memory-image-context* ((image context
@@ -137,8 +135,7 @@
                ,result)
            (t (err)
              (setf ,result err)
-             (format t "Caught ~a~%" err)
-             (inspect err)))
+             (format t "Caught ~a~%~{~a~}~%" err (sb-debug:backtrace-as-list))))
          ,result))))
 
 (defmacro with-image-context ((image context file-name
