@@ -1,4 +1,4 @@
-;;;; blend2d.lisp 
+;;;; blend2d.lisp
 ;;
 ;; Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
 
@@ -25,15 +25,17 @@
 
 (autowrap:c-include #+darwin"/Users/jeremiahlarocco/oss_src/blend2d/blend2d/src/blend2d.h"
                     #+linux"/home/jeremiah/oss_src/blend2d/blend2d/src/blend2d.h"
+                    #+freebsd"blend2d.h"
                     :sysincludes (list #+linux"/usr/include/x86_64-linux-gnu/"
-                                       #+linux"/usr/include/x86_64-linux-gnu/c++/7/"
-                                       #+darwin"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/")
+                                       #+linux"/usr/include/x86_64-linux-gnu/c++/9/"
+                                       #+darwin"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/"
+                                       #+freebsd"/usr/include/"
+                                       #+freebsd"/usr/local/include/")
                     :language "c"
                     :spec-path '(blend2d specs)
                     :symbol-regex (("^BL_(.*)" () "\\1")
                                    ("^BL(.*)" () "\\1")
                                    ("^bl(.*)" () "\\1"))
-                    
                     :exclude-definitions ("^va_list$"
                                           "Random"
                                           "Signal"
