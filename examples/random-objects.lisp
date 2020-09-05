@@ -18,7 +18,7 @@
 
 ;; Example code showing how to use the low-level blend bindings.
 
-(defun random-circles (count file-name &key (width 800) (height 800) (max-radius 80.0))
+(defun random-circles (count file-name &key (width 800) (height 800) (max-radius 80.0d0))
   (ensure-directories-exist file-name)
   (bl:with-image-context*
       (img ctx file-name
@@ -38,7 +38,7 @@
         (bl:context-fill-geometry ctx bl:+geometry-type-circle+ circle)))))
 
 
-(defun random-lines (count file-name &key (width 1600) (height 1600) (max-width 16.0))
+(defun random-lines (count file-name &key (width 1600) (height 1600) (max-width 16.0d0))
   (ensure-directories-exist file-name)
   (bl:with-image-context*
       (img ctx file-name

@@ -26,9 +26,9 @@
       ((path path-core))
       
     (bl:path-init path)
-    (bl:path-move-to path 26.0 31.0)
-    (bl:path-cubic-to path 642.0 132.0 587.0 -136.0 25.0 464.0)
-    (bl:path-cubic-to path 882.0 404.0 144.0 267.0 27.0 31.0)
+    (bl:path-move-to path 26.0d0 31.0d0)
+    (bl:path-cubic-to path 642.0d0 132.0d0 587.0d0 -136.0d0 25.0d0 464.0d0)
+    (bl:path-cubic-to path 882.0d0 404.0d0 144.0d0 267.0d0 27.0d0 31.0d0)
 
     (bl:context-set-comp-op ctx bl:+comp-op-src-over+)
     (bl:context-set-fill-style-rgba32 ctx #16rffffffff)

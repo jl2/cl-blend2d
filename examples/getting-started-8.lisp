@@ -1,4 +1,4 @@
-;;;; getting-started-7.lisp
+;;;; getting-started-8.lisp
 ;;
 ;; Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
 
@@ -18,10 +18,7 @@
 
 (defun getting-started-8 (file-name &key (font-file-name "NotoSans-Regular.ttf") (width 480) (height 480) (image-type "BMP"))
   (bl:with-image-context*
-      (img ctx file-name
-           :width width
-           :height height
-           :codec-name image-type)
+      (img ctx file-name :width width :height height :codec-name image-type)
       ((font font-core)
        (face font-face-core)
        (fm font-metrics)

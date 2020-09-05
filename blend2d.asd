@@ -20,7 +20,7 @@
   :license  "ISC"
   :version "0.0.2"
   :serial t
-  :depends-on (#:cffi #:cl-autowrap/libffi #:blend2d.ll #:alexandria)
+  :depends-on (#:cffi #:cl-autowrap/libffi #:blend2d.ll #:alexandria #:trivial-backtrace)
   :components ((:file "package")
                (:file "blend2d")
                (:module "specs")

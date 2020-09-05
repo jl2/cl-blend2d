@@ -18,10 +18,7 @@
 
 (defun getting-started-7 (file-name &key (font-file-name "NotoSans-Regular.ttf") (width 480) (height 480) (image-type "BMP"))
   (bl:with-image-context*
-      (img ctx file-name
-           :width width
-           :height height
-           :codec-name image-type)
+      (img ctx file-name :width width :height height :codec-name image-type)
       ((font bl:font-core)
        (face bl:font-face-core)
        (point bl:point-i))
@@ -37,7 +34,7 @@
     (setf (bl:point-i.y point) 80)
 
     (cffi:with-foreign-string (str "Hello Blend2D!")
-      (bl:lookup-error (bl:context-fill-text-i ctx point font str bl:+size-max+ bl:+text-encoding-utf8+)))
+      (bl:lookup-error (bl:context-fill-text-i  ctx point font str 15 bl:+text-encoding-utf8+)))
 
     (cffi:with-foreign-array (arr #(0.785398d0) '(:array :double 1))
       (bl:lookup-error (bl:context-matrix-op ctx bl:+matrix2d-op-rotate+ arr)))
@@ -46,4 +43,4 @@
     (setf (bl:point-i.y point) 80)
 
     (cffi:with-foreign-string (str "Rotated Text!")
-      (bl:lookup-error (bl:context-fill-text-i ctx point font str bl:+size-max+ bl:+text-encoding-utf8+)))))
+      (bl:lookup-error (bl:context-fill-text-i ctx point font str 14 bl:+text-encoding-utf8+)))))

@@ -25,7 +25,8 @@
 
 (autowrap:c-include #+darwin"/Users/jeremiahlarocco/oss_src/blend2d/blend2d/src/blend2d.h"
                     #+linux"/home/jeremiah/oss_src/blend2d/blend2d/src/blend2d.h"
-                    #+freebsd"blend2d.h"
+                    #+freebsd"/home/jeremiah/oss_src/blend2d/blend2d/src/blend2d.h"
+                    :trace-c2ffi t
                     :sysincludes (list #+linux"/usr/include/x86_64-linux-gnu/"
                                        #+linux"/usr/include/x86_64-linux-gnu/c++/9/"
                                        #+darwin"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/"

@@ -18,15 +18,15 @@
 (in-package :blend2d)
 
 (loop for sym being the external-symbols of :blend2d.ll
-              for ssym = (symbol-name sym) then (symbol-name sym)
-              when (not (or (cl-ppcre:scan "-IMPL" ssym)
-                         (cl-ppcre:scan ".IMPL\*" ssym)
-                         (cl-ppcre:scan "^\\+__" ssym)
-                         (cl-ppcre:scan "^__" ssym)
-                         (cl-ppcre:scan "&" ssym)
-                         (cl-ppcre:scan "(_|-)H+" ssym)
-                         (cl-ppcre:scan "PTHREAD" ssym)))
-   collect (export sym))
+      for ssym = (symbol-name sym) then (symbol-name sym)
+      when (not (or (cl-ppcre:scan "-IMPL" ssym)
+                    (cl-ppcre:scan ".IMPL\*" ssym)
+                    (cl-ppcre:scan "^\\+__" ssym)
+                    (cl-ppcre:scan "^__" ssym)
+                    (cl-ppcre:scan "&" ssym)
+                    (cl-ppcre:scan "(_|-)H+" ssym)
+                    (cl-ppcre:scan "PTHREAD" ssym)))
+      collect (export sym))
 
 (defparameter *log-level* 1)
 
@@ -56,13 +56,10 @@
                                   (len-m-5 (- (length type-name) 5)))
                              (when (and (> (length type-name) 6)
                                         (string= (subseq type-name len-m-5) "-CORE"))
-                                 (list 'lookup-error (list
-                                                      (intern (format nil "~a-RESET" (subseq type-name 0 len-m-5)) 'blll)
-                                                      (car def)))
-                                 ;; (list 'lookup-error (list
-                                 ;;                      (intern (format nil "~a-RESET" type-name) 'blll)
-                                 ;;                      (car def)))
-                                 ))
+                               (list 'lookup-error
+                                     (list
+                                      (intern (format nil "~a-DESTROY" (subseq type-name 0 len-m-5)) 'blll)
+                                      (car def)))))
                            (list 'autowrap:free (car def))))
                         object-definitions))))
       `(let (,@alloc-defs
@@ -71,7 +68,7 @@
              (setf ,result (progn
                              ,@body))
            (t (err)
-             (format t "Caught ~a~%~{~a~}~%" err (sb-debug:list-backtrace))))
+             (format t "Caught ~a~%~a~%" err (trivial-backtrace:backtrace-string))))
          ,@free-calls
          ,result))))
 
@@ -108,15 +105,15 @@
                ,result)
            (t (err)
              (setf ,result err)
-             (format t "Caught ~a~%~{~a~}~%" err (sb-debug:list-backtrace))))
+             (format t "Caught ~a~%~a~%" err (trivial-backtrace:backtrace-string))))
          ,result))))
 
 (defmacro with-memory-image-context* ((image context
-                                      &key
-                                      (width 1200)
-                                      (height 1200))
-                                        (&rest object-definitions)
-                               &body body)
+                                             &key
+                                             (width 1200)
+                                             (height 1200))
+                                               (&rest object-definitions)
+                                      &body body)
   (alexandria:with-gensyms (result)
     `(let ((,result nil))
        (with-objects ((,image image-core)
@@ -135,14 +132,14 @@
                ,result)
            (t (err)
              (setf ,result err)
-             (format t "Caught ~a~%~{~a~}~%" err (sb-debug:list-backtrace))))
+             (format t "Caught ~a~%~a~%" err (trivial-backtrace:backtrace-string))))
          ,result))))
 
 (defmacro with-image-context ((image context file-name
                                      &key
-                                      (width 1200)
-                                      (height 1200)
-                                      (codec-name "BMP"))
+                                     (width 1200)
+                                     (height 1200)
+                                     (codec-name "BMP"))
                               &body body)
   (alexandria:with-gensyms (result codec)
     `(let ((,result nil))
@@ -169,7 +166,7 @@
                ,result)
            (t (err)
              (setf ,result err)
-             (format t "Caught ~a~%~{~a~}~%" err (sb-debug:list-backtrace))))
+             (format t "Caught ~a~%~a~%" err (trivial-backtrace:backtrace-string))))
          ,result))))
 
 (defun image-codec-by-name (codec name)
@@ -259,6 +256,7 @@
    (cons blend2d.ll:+ERROR-TRY-AGAIN+ '+ERROR-TRY-AGAIN+)
    (cons blend2d.ll:+ERROR-UNKNOWN-SYSTEM-ERROR+ '+ERROR-UNKNOWN-SYSTEM-ERROR+)))
 
+;; TODO: Make this more efficient
 (defmacro lookup-error (&body form)
   (alexandria:with-gensyms (rval)
     `(progn
