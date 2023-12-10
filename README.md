@@ -1,4 +1,5 @@
 # blend2d
+
 ### _Jeremiah LaRocco <jeremiah_larocco@fastmail.com>_
 
 Common Lisp bindings to [Blend2D](https://github.com/blend2d/blend2d).
@@ -34,11 +35,7 @@ Next, run one of the getting started examples:
 ```
 
 This should produce a file blend2d.example.1.bmp
-
-
 ## License
 ISC
 
-Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
-
-
+Copyright (c) 2023 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>

@@ -5,7 +5,7 @@ Common Lisp bindings to [[https://github.com/blend2d][Blend2D]].
 ** License
 ISC
 
-Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
+Copyright (c) 2023 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
 
 
 * Todo

@@ -1,6 +1,5 @@
-;;;; blend2d.examples.asd 
-;;
-;; Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
+;; blend2d.examples.asd
+;; Copyright (c) 2023 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
 
 ;; Permission to use, copy, modify, and/or distribute this software for any
 ;; purpose with or without fee is hereby granted, provided that the above
@@ -28,9 +27,9 @@
   :depends-on ( :blend2d
                 :j-utils
                 :alexandria)
-  
+
   :components ((:module "examples"
-                        :components 
+                        :components
                         ((:file "package")
                          (:file "getting-started-1")
                          (:file "getting-started-2")

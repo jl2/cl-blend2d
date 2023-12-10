@@ -1,6 +1,5 @@
-;;;; getting-started-1.lisp
-;;
-;; Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
+;; getting-started-1.lisp
+;; Copyright (c) 2023 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
 
 ;; Permission to use, copy, modify, and/or distribute this software for any
 ;; purpose with or without fee is hereby granted, provided that the above
@@ -32,4 +31,3 @@
     (bl:context-set-comp-op ctx bl:+comp-op-src-over+)
     (bl:context-set-fill-style-rgba32 ctx #16rffffffff)
     (bl:context-fill-path-d ctx path)))
-
