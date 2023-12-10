@@ -28,4 +28,6 @@
            #:image-codec-by-name
            #:setup-window
            #:3d-to-2d
+           #:bl-alloc
+           #:bl-free
            ))

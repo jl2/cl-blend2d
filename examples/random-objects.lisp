@@ -1,4 +1,4 @@
-;;;; low-level.lisp 
+;; random-objects.lisp
 ;;
 ;; Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
 
@@ -47,9 +47,7 @@
            :height height)
       ((line bl:line))
 
-    
 
-    (let ((fwidth (coerce width 'double-float))
           (fheight (coerce height 'double-float)))
       (dotimes (i count)
         (setf (bl:line.x0 line) (random fwidth))
@@ -61,4 +59,4 @@
         (bl:context-set-stroke-width ctx  (random max-width))
         (bl:context-set-comp-op ctx bl:+comp-op-src-over+)
         (bl:context-set-stroke-style-rgba32 ctx (random #16rffffffff))
-        (bl:context-stroke-geometry ctx bl:+geometry-type-line+ line)))))
+        (bl:context-stroke-geometry ctx bl:+geometry-type-line+ line)))

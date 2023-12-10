@@ -38,7 +38,6 @@
 
     (cffi:with-foreign-array (arr #(0.785398d0 240.0d0 240.0d0) '(:array :double 3))
       (bl:lookup-error (bl:context-matrix-op ctx bl:+matrix2d-op-rotate-pt+ arr)))
-    
     (bl:lookup-error (bl:context-set-comp-op ctx bl:+comp-op-src-over+))
     (bl:lookup-error (bl:context-set-fill-style-object ctx pattern))
 

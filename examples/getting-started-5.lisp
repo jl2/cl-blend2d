@@ -46,7 +46,6 @@
     (bl:lookup-error (bl:context-set-fill-style-object ctx rad-grad))
     (bl:lookup-error (bl:context-fill-geometry ctx bl:+geometry-type-circle+ circle))
 
-    
     (setf (bl:linear-gradient-values.x0 linear-vals) 195.0d0)
     (setf (bl:linear-gradient-values.y0 linear-vals) 195.0d0)
     (setf (bl:linear-gradient-values.x1 linear-vals) 470.0d0)

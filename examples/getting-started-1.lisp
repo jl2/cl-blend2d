@@ -24,7 +24,6 @@
            :width width
            :height height)
       ((path path-core))
-      
     (bl:path-init path)
     (bl:path-move-to path 26.0d0 31.0d0)
     (bl:path-cubic-to path 642.0d0 132.0d0 587.0d0 -136.0d0 25.0d0 464.0d0)

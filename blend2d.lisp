@@ -1,7 +1,6 @@
-;;;; blend2d.lisp 
+;; blend2d.lisp
 ;;
 ;; Copyright (c) 2019 Jeremiah LaRocco <jeremiah_larocco@fastmail.com>
-
 
 ;; Permission to use, copy, modify, and/or distribute this software for any
 ;; purpose with or without fee is hereby granted, provided that the above
@@ -30,9 +29,23 @@
 
 (defparameter *log-level* 1)
 
-(declaim (inline nullp home-dir image-codec-by-name))
+(declaim (inline nullp home-dir image-codec-by-name bl-alloc bl-free))
 (defun nullp ()
   (cffi:null-pointer))
+
+(defun bl-alloc (object-type &optional (count 1))
+  (autowrap:alloc object-type count))
+
+(defun bl-free (object-pointer)
+  (autowrap:free object-pointer))
+
+(defun image-codec-by-name (codec name)
+  (blll::image-codec-find-by-name
+   codec
+   name
+   ;; Assume (sizeof ulong) as size of size_t and corresponding max value for SIZE_MAX
+   (1- (ash 1 (* 8 (cffi:foreign-type-size :ulong))))
+   (cffi:null-pointer)))
 
 ;; Copied from https://git.sr.ht/~jl2/j-utils
 (defun home-dir (path)
@@ -68,7 +81,9 @@
              (setf ,result (progn
                              ,@body))
            (t (err)
-             (format t "Caught ~a~%~a~%" err (trivial-backtrace:backtrace-string))))
+             (format t "Caught ~a~%~%" err)
+             ;; (format t "Caught ~a~%~a~%" err (trivial-backtrace:backtrace-string))
+             ))
          ,@free-calls
          ,result))))
 
@@ -87,7 +102,7 @@
                       (,codec image-codec-core)
                       ,@object-definitions)
          (handler-case
-             (progn 
+             (progn
                (lookup-error (image-init-as ,image ,width ,height +format-prgb32+))
                (lookup-error (context-init-as ,context ,image (cffi:null-pointer)))
                (lookup-error (context-set-comp-op ,context +comp-op-src-copy+))
@@ -105,7 +120,8 @@
                ,result)
            (t (err)
              (setf ,result err)
-             (format t "Caught ~a~%~a~%" err (trivial-backtrace:backtrace-string))))
+             ;;(format t "Caught ~a~%~a~%" err (trivial-backtrace:backtrace-string))
+             (format t "Caught ~a~%~%" err)))
          ,result))))
 
 (defmacro with-memory-image-context* ((image context
@@ -120,7 +136,7 @@
                       (,context context-core)
                       ,@object-definitions)
          (handler-case
-             (progn 
+             (progn
                (lookup-error (image-init-as ,image ,width ,height +format-prgb32+))
                (lookup-error (context-init-as ,context ,image (cffi:null-pointer)))
                (lookup-error (context-set-comp-op ,context +comp-op-src-copy+))
@@ -132,7 +148,8 @@
                ,result)
            (t (err)
              (setf ,result err)
-             (format t "Caught ~a~%~a~%" err (trivial-backtrace:backtrace-string))))
+             ;; (format t "Caught ~a~%~a~%" err (trivial-backtrace:backtrace-string))
+             (format t "Caught ~a~%~%" err)))
          ,result))))
 
 (defmacro with-image-context ((image context file-name
@@ -147,8 +164,7 @@
                       (,context  context-core)
                       (,codec  image-codec-core))
          (handler-case
-             (progn 
-
+             (progn
                (image-init-as ,image ,width ,height +format-prgb32+)
                (context-init-as ,context ,image (cffi:null-pointer))
                (context-set-comp-op ,context +comp-op-src-copy+)
@@ -166,95 +182,88 @@
                ,result)
            (t (err)
              (setf ,result err)
-             (format t "Caught ~a~%~a~%" err (trivial-backtrace:backtrace-string))))
+             ;;(format t "Caught ~a~%~a~%" err (trivial-backtrace:backtrace-string))
+             (format t "Caught ~a~%~%" err)))
          ,result))))
 
-(defun image-codec-by-name (codec name)
-  (blll:image-codec-find-by-name
-   codec
-   name
-   ;; Assume (sizeof ulong) as size of size_t and corresponding max value for SIZE_MAX
-   (1- (ash 1 (* 8 (cffi:foreign-type-size :ulong))))
-   (cffi:null-pointer)))
-
-(defparameter *error-lookup* 
-  (list 
-   (cons blend2d.ll:+ERROR-ACCESS-DENIED+ '+ERROR-ACCESS-DENIED+)
-   (cons blend2d.ll:+ERROR-BUSY+ '+ERROR-BUSY+)
-   (cons blend2d.ll:+ERROR-ALREADY-EXISTS+ '+ERROR-ALREADY-EXISTS+)
-   (cons blend2d.ll:+ERROR-BROKEN-PIPE+ '+ERROR-BROKEN-PIPE+)
-   (cons blend2d.ll:+ERROR-FILE-EMPTY+ '+ERROR-FILE-EMPTY+)
-   (cons blend2d.ll:+ERROR-DATA-TOO-LARGE+ '+ERROR-DATA-TOO-LARGE+)
-   (cons blend2d.ll:+ERROR-DATA-TRUNCATED+ '+ERROR-DATA-TRUNCATED+)
-   (cons blend2d.ll:+ERROR-DECOMPRESSION-FAILED+ '+ERROR-DECOMPRESSION-FAILED+)
-   (cons blend2d.ll:+ERROR-FONT-FEATURE-NOT-AVAILABLE+ '+ERROR-FONT-FEATURE-NOT-AVAILABLE+)
-   (cons blend2d.ll:+ERROR-FILE-NAME-TOO-LONG+ '+ERROR-FILE-NAME-TOO-LONG+)
-   (cons blend2d.ll:+ERROR-FILE-TOO-LARGE+ '+ERROR-FILE-TOO-LARGE+)
-   (cons blend2d.ll:+ERROR-FONT-CFF-INVALID-DATA+ '+ERROR-FONT-CFF-INVALID-DATA+)
-   (cons blend2d.ll:+ERROR-IMAGE-DECODER-NOT-PROVIDED+ '+ERROR-IMAGE-DECODER-NOT-PROVIDED+)
-   (cons blend2d.ll:+ERROR-FONT-MISSING-IMPORTANT-TABLE+ '+ERROR-FONT-MISSING-IMPORTANT-TABLE+)
-   (cons blend2d.ll:+ERROR-FONT-NO-CHARACTER-MAPPING+ '+ERROR-FONT-NO-CHARACTER-MAPPING+)
-   (cons blend2d.ll:+ERROR-FONT-PROGRAM-TERMINATED+ '+ERROR-FONT-PROGRAM-TERMINATED+)
-   (cons blend2d.ll:+ERROR-IMAGE-UNKNOWN-FILE-FORMAT+ '+ERROR-IMAGE-UNKNOWN-FILE-FORMAT+)
-   (cons blend2d.ll:+ERROR-IMAGE-ENCODER-NOT-PROVIDED+ '+ERROR-IMAGE-ENCODER-NOT-PROVIDED+)
-   (cons blend2d.ll:+ERROR-IMAGE-NO-MATCHING-CODEC+ '+ERROR-IMAGE-NO-MATCHING-CODEC+)
-   (cons blend2d.ll:+ERROR-IMAGE-TOO-LARGE+ '+ERROR-IMAGE-TOO-LARGE+)
-   (cons blend2d.ll:+ERROR-INVALID-FILE-NAME+ '+ERROR-INVALID-FILE-NAME+)
-   (cons blend2d.ll:+ERROR-INTERRUPTED+ '+ERROR-INTERRUPTED+)
-   (cons blend2d.ll:+ERROR-INVALID-ALIGNMENT+ '+ERROR-INVALID-ALIGNMENT+)
-   (cons blend2d.ll:+ERROR-INVALID-DATA+ '+ERROR-INVALID-DATA+)
-   (cons blend2d.ll:+ERROR-INVALID-SEEK+ '+ERROR-INVALID-SEEK+)
-   (cons blend2d.ll:+ERROR-INVALID-GEOMETRY+ '+ERROR-INVALID-GEOMETRY+)
-   (cons blend2d.ll:+ERROR-INVALID-GLYPH+ '+ERROR-INVALID-GLYPH+)
-   (cons blend2d.ll:+ERROR-INVALID-HANDLE+ '+ERROR-INVALID-HANDLE+)
-   (cons blend2d.ll:+ERROR-INVALID-VALUE+ '+ERROR-INVALID-VALUE+)
-   (cons blend2d.ll:+ERROR-INVALID-SIGNATURE+ '+ERROR-INVALID-SIGNATURE+)
-   (cons blend2d.ll:+ERROR-INVALID-STATE+ '+ERROR-INVALID-STATE+)
-   (cons blend2d.ll:+ERROR-INVALID-STRING+ '+ERROR-INVALID-STRING+)
-   (cons blend2d.ll:+ERROR-JPEG-MULTIPLE-SOF+ '+ERROR-JPEG-MULTIPLE-SOF+)
-   (cons blend2d.ll:+ERROR-IO+ '+ERROR-IO+)
-   (cons blend2d.ll:+ERROR-JPEG-INVALID-SOF+ '+ERROR-JPEG-INVALID-SOF+)
-   (cons blend2d.ll:+ERROR-JPEG-INVALID-SOS+ '+ERROR-JPEG-INVALID-SOS+)
-   (cons blend2d.ll:+ERROR-NO-DEVICE+ '+ERROR-NO-DEVICE+)
-   (cons blend2d.ll:+ERROR-JPEG-UNSUPPORTED-FEATURE+ '+ERROR-JPEG-UNSUPPORTED-FEATURE+)
-   (cons blend2d.ll:+ERROR-JPEG-UNSUPPORTED-SOF+ '+ERROR-JPEG-UNSUPPORTED-SOF+)
-   (cons blend2d.ll:+ERROR-MEDIA-CHANGED+ '+ERROR-MEDIA-CHANGED+)
-   (cons blend2d.ll:+ERROR-NO-MEDIA+ '+ERROR-NO-MEDIA+)
-   (cons blend2d.ll:+ERROR-NO-ENTRY+ '+ERROR-NO-ENTRY+)
-   (cons blend2d.ll:+ERROR-NO-MATCHING-COOKIE+ '+ERROR-NO-MATCHING-COOKIE+)
-   (cons blend2d.ll:+ERROR-NO-MATCHING-VERTEX+ '+ERROR-NO-MATCHING-VERTEX+)
-   (cons blend2d.ll:+ERROR-NO-STATES-TO-RESTORE+ '+ERROR-NO-STATES-TO-RESTORE+)
-   (cons blend2d.ll:+ERROR-NO-MORE-DATA+ '+ERROR-NO-MORE-DATA+)
-   (cons blend2d.ll:+ERROR-NO-MORE-FILES+ '+ERROR-NO-MORE-FILES+)
-   (cons blend2d.ll:+ERROR-NO-SPACE-LEFT+ '+ERROR-NO-SPACE-LEFT+)
-   (cons blend2d.ll:+ERROR-NOT-FILE+ '+ERROR-NOT-FILE+)
-   (cons blend2d.ll:+ERROR-NOT-BLOCK-DEVICE+ '+ERROR-NOT-BLOCK-DEVICE+)
-   (cons blend2d.ll:+ERROR-NOT-DIRECTORY+ '+ERROR-NOT-DIRECTORY+)
-   (cons blend2d.ll:+ERROR-NOT-EMPTY+ '+ERROR-NOT-EMPTY+)
-   (cons blend2d.ll:+ERROR-NOT-ROOT-DEVICE+ '+ERROR-NOT-ROOT-DEVICE+)
-   (cons blend2d.ll:+ERROR-NOT-IMPLEMENTED+ '+ERROR-NOT-IMPLEMENTED+)
-   (cons blend2d.ll:+ERROR-NOT-INITIALIZED+ '+ERROR-NOT-INITIALIZED+)
-   (cons blend2d.ll:+ERROR-NOT-PERMITTED+ '+ERROR-NOT-PERMITTED+)
-   (cons blend2d.ll:+ERROR-PNG-INVALID-FILTER+ '+ERROR-PNG-INVALID-FILTER+)
-   (cons blend2d.ll:+ERROR-NOT-SAME-DEVICE+ '+ERROR-NOT-SAME-DEVICE+)
-   (cons blend2d.ll:+ERROR-OPEN-FAILED+ '+ERROR-OPEN-FAILED+)
-   (cons blend2d.ll:+ERROR-OUT-OF-MEMORY+ '+ERROR-OUT-OF-MEMORY+)
-   (cons blend2d.ll:+ERROR-PNG-INVALID-TRNS+ '+ERROR-PNG-INVALID-TRNS+)
-   (cons blend2d.ll:+ERROR-PNG-INVALID-IDAT+ '+ERROR-PNG-INVALID-IDAT+)
-   (cons blend2d.ll:+ERROR-PNG-INVALID-IEND+ '+ERROR-PNG-INVALID-IEND+)
-   (cons blend2d.ll:+ERROR-PNG-INVALID-PLTE+ '+ERROR-PNG-INVALID-PLTE+)
-   (cons blend2d.ll:+ERROR-SYMLINK-LOOP+ '+ERROR-SYMLINK-LOOP+)
-   (cons blend2d.ll:+ERROR-PNG-MULTIPLE-IHDR+ '+ERROR-PNG-MULTIPLE-IHDR+)
-   (cons blend2d.ll:+ERROR-READ-ONLY-FS+ '+ERROR-READ-ONLY-FS+)
-   (cons blend2d.ll:+ERROR-START-INDEX+ '+ERROR-START-INDEX+)
-   (cons blend2d.ll:+ERROR-TOO-MANY-OPEN-FILES-BY-OS+ '+ERROR-TOO-MANY-OPEN-FILES-BY-OS+)
-   (cons blend2d.ll:+ERROR-TIMED-OUT+ '+ERROR-TIMED-OUT+)
-   (cons blend2d.ll:+ERROR-TOO-MANY-LINKS+ '+ERROR-TOO-MANY-LINKS+)
-   (cons blend2d.ll:+ERROR-TOO-MANY-OPEN-FILES+ '+ERROR-TOO-MANY-OPEN-FILES+)
-   (cons blend2d.ll:+ERROR-VALUE-TOO-LARGE+ '+ERROR-VALUE-TOO-LARGE+)
-   (cons blend2d.ll:+ERROR-TOO-MANY-THREADS+ '+ERROR-TOO-MANY-THREADS+)
-   (cons blend2d.ll:+ERROR-TRY-AGAIN+ '+ERROR-TRY-AGAIN+)
-   (cons blend2d.ll:+ERROR-UNKNOWN-SYSTEM-ERROR+ '+ERROR-UNKNOWN-SYSTEM-ERROR+)))
+(defparameter *error-lookup*
+  (list
+   (cons blend2d.ll::+ERROR-ACCESS-DENIED+ '+ERROR-ACCESS-DENIED+)
+   (cons blend2d.ll::+ERROR-BUSY+ '+ERROR-BUSY+)
+   (cons blend2d.ll::+ERROR-ALREADY-EXISTS+ '+ERROR-ALREADY-EXISTS+)
+   (cons blend2d.ll::+ERROR-BROKEN-PIPE+ '+ERROR-BROKEN-PIPE+)
+   (cons blend2d.ll::+ERROR-FILE-EMPTY+ '+ERROR-FILE-EMPTY+)
+   (cons blend2d.ll::+ERROR-DATA-TOO-LARGE+ '+ERROR-DATA-TOO-LARGE+)
+   (cons blend2d.ll::+ERROR-DATA-TRUNCATED+ '+ERROR-DATA-TRUNCATED+)
+   (cons blend2d.ll::+ERROR-DECOMPRESSION-FAILED+ '+ERROR-DECOMPRESSION-FAILED+)
+   (cons blend2d.ll::+ERROR-FONT-FEATURE-NOT-AVAILABLE+ '+ERROR-FONT-FEATURE-NOT-AVAILABLE+)
+   (cons blend2d.ll::+ERROR-FILE-NAME-TOO-LONG+ '+ERROR-FILE-NAME-TOO-LONG+)
+   (cons blend2d.ll::+ERROR-FILE-TOO-LARGE+ '+ERROR-FILE-TOO-LARGE+)
+   (cons blend2d.ll::+ERROR-FONT-CFF-INVALID-DATA+ '+ERROR-FONT-CFF-INVALID-DATA+)
+   (cons blend2d.ll::+ERROR-IMAGE-DECODER-NOT-PROVIDED+ '+ERROR-IMAGE-DECODER-NOT-PROVIDED+)
+   (cons blend2d.ll::+ERROR-FONT-MISSING-IMPORTANT-TABLE+ '+ERROR-FONT-MISSING-IMPORTANT-TABLE+)
+   (cons blend2d.ll::+ERROR-FONT-NO-CHARACTER-MAPPING+ '+ERROR-FONT-NO-CHARACTER-MAPPING+)
+   (cons blend2d.ll::+ERROR-FONT-PROGRAM-TERMINATED+ '+ERROR-FONT-PROGRAM-TERMINATED+)
+   (cons blend2d.ll::+ERROR-IMAGE-UNKNOWN-FILE-FORMAT+ '+ERROR-IMAGE-UNKNOWN-FILE-FORMAT+)
+   (cons blend2d.ll::+ERROR-IMAGE-ENCODER-NOT-PROVIDED+ '+ERROR-IMAGE-ENCODER-NOT-PROVIDED+)
+   (cons blend2d.ll::+ERROR-IMAGE-NO-MATCHING-CODEC+ '+ERROR-IMAGE-NO-MATCHING-CODEC+)
+   (cons blend2d.ll::+ERROR-IMAGE-TOO-LARGE+ '+ERROR-IMAGE-TOO-LARGE+)
+   (cons blend2d.ll::+ERROR-INVALID-FILE-NAME+ '+ERROR-INVALID-FILE-NAME+)
+   (cons blend2d.ll::+ERROR-INTERRUPTED+ '+ERROR-INTERRUPTED+)
+   (cons blend2d.ll::+ERROR-INVALID-ALIGNMENT+ '+ERROR-INVALID-ALIGNMENT+)
+   (cons blend2d.ll::+ERROR-INVALID-DATA+ '+ERROR-INVALID-DATA+)
+   (cons blend2d.ll::+ERROR-INVALID-SEEK+ '+ERROR-INVALID-SEEK+)
+   (cons blend2d.ll::+ERROR-INVALID-GEOMETRY+ '+ERROR-INVALID-GEOMETRY+)
+   (cons blend2d.ll::+ERROR-INVALID-GLYPH+ '+ERROR-INVALID-GLYPH+)
+   (cons blend2d.ll::+ERROR-INVALID-HANDLE+ '+ERROR-INVALID-HANDLE+)
+   (cons blend2d.ll::+ERROR-INVALID-VALUE+ '+ERROR-INVALID-VALUE+)
+   (cons blend2d.ll::+ERROR-INVALID-SIGNATURE+ '+ERROR-INVALID-SIGNATURE+)
+   (cons blend2d.ll::+ERROR-INVALID-STATE+ '+ERROR-INVALID-STATE+)
+   (cons blend2d.ll::+ERROR-INVALID-STRING+ '+ERROR-INVALID-STRING+)
+   (cons blend2d.ll::+ERROR-JPEG-MULTIPLE-SOF+ '+ERROR-JPEG-MULTIPLE-SOF+)
+   (cons blend2d.ll::+ERROR-IO+ '+ERROR-IO+)
+   (cons blend2d.ll::+ERROR-JPEG-INVALID-SOF+ '+ERROR-JPEG-INVALID-SOF+)
+   (cons blend2d.ll::+ERROR-JPEG-INVALID-SOS+ '+ERROR-JPEG-INVALID-SOS+)
+   (cons blend2d.ll::+ERROR-NO-DEVICE+ '+ERROR-NO-DEVICE+)
+   (cons blend2d.ll::+ERROR-JPEG-UNSUPPORTED-FEATURE+ '+ERROR-JPEG-UNSUPPORTED-FEATURE+)
+   (cons blend2d.ll::+ERROR-JPEG-UNSUPPORTED-SOF+ '+ERROR-JPEG-UNSUPPORTED-SOF+)
+   (cons blend2d.ll::+ERROR-MEDIA-CHANGED+ '+ERROR-MEDIA-CHANGED+)
+   (cons blend2d.ll::+ERROR-NO-MEDIA+ '+ERROR-NO-MEDIA+)
+   (cons blend2d.ll::+ERROR-NO-ENTRY+ '+ERROR-NO-ENTRY+)
+   (cons blend2d.ll::+ERROR-NO-MATCHING-COOKIE+ '+ERROR-NO-MATCHING-COOKIE+)
+   (cons blend2d.ll::+ERROR-NO-MATCHING-VERTEX+ '+ERROR-NO-MATCHING-VERTEX+)
+   (cons blend2d.ll::+ERROR-NO-STATES-TO-RESTORE+ '+ERROR-NO-STATES-TO-RESTORE+)
+   (cons blend2d.ll::+ERROR-NO-MORE-DATA+ '+ERROR-NO-MORE-DATA+)
+   (cons blend2d.ll::+ERROR-NO-MORE-FILES+ '+ERROR-NO-MORE-FILES+)
+   (cons blend2d.ll::+ERROR-NO-SPACE-LEFT+ '+ERROR-NO-SPACE-LEFT+)
+   (cons blend2d.ll::+ERROR-NOT-FILE+ '+ERROR-NOT-FILE+)
+   (cons blend2d.ll::+ERROR-NOT-BLOCK-DEVICE+ '+ERROR-NOT-BLOCK-DEVICE+)
+   (cons blend2d.ll::+ERROR-NOT-DIRECTORY+ '+ERROR-NOT-DIRECTORY+)
+   (cons blend2d.ll::+ERROR-NOT-EMPTY+ '+ERROR-NOT-EMPTY+)
+   (cons blend2d.ll::+ERROR-NOT-ROOT-DEVICE+ '+ERROR-NOT-ROOT-DEVICE+)
+   (cons blend2d.ll::+ERROR-NOT-IMPLEMENTED+ '+ERROR-NOT-IMPLEMENTED+)
+   (cons blend2d.ll::+ERROR-NOT-INITIALIZED+ '+ERROR-NOT-INITIALIZED+)
+   (cons blend2d.ll::+ERROR-NOT-PERMITTED+ '+ERROR-NOT-PERMITTED+)
+   (cons blend2d.ll::+ERROR-PNG-INVALID-FILTER+ '+ERROR-PNG-INVALID-FILTER+)
+   (cons blend2d.ll::+ERROR-NOT-SAME-DEVICE+ '+ERROR-NOT-SAME-DEVICE+)
+   (cons blend2d.ll::+ERROR-OPEN-FAILED+ '+ERROR-OPEN-FAILED+)
+   (cons blend2d.ll::+ERROR-OUT-OF-MEMORY+ '+ERROR-OUT-OF-MEMORY+)
+   (cons blend2d.ll::+ERROR-PNG-INVALID-TRNS+ '+ERROR-PNG-INVALID-TRNS+)
+   (cons blend2d.ll::+ERROR-PNG-INVALID-IDAT+ '+ERROR-PNG-INVALID-IDAT+)
+   (cons blend2d.ll::+ERROR-PNG-INVALID-IEND+ '+ERROR-PNG-INVALID-IEND+)
+   (cons blend2d.ll::+ERROR-PNG-INVALID-PLTE+ '+ERROR-PNG-INVALID-PLTE+)
+   (cons blend2d.ll::+ERROR-SYMLINK-LOOP+ '+ERROR-SYMLINK-LOOP+)
+   (cons blend2d.ll::+ERROR-PNG-MULTIPLE-IHDR+ '+ERROR-PNG-MULTIPLE-IHDR+)
+   (cons blend2d.ll::+ERROR-READ-ONLY-FS+ '+ERROR-READ-ONLY-FS+)
+   (cons blend2d.ll::+ERROR-START-INDEX+ '+ERROR-START-INDEX+)
+   (cons blend2d.ll::+ERROR-TOO-MANY-OPEN-FILES-BY-OS+ '+ERROR-TOO-MANY-OPEN-FILES-BY-OS+)
+   (cons blend2d.ll::+ERROR-TIMED-OUT+ '+ERROR-TIMED-OUT+)
+   (cons blend2d.ll::+ERROR-TOO-MANY-LINKS+ '+ERROR-TOO-MANY-LINKS+)
+   (cons blend2d.ll::+ERROR-TOO-MANY-OPEN-FILES+ '+ERROR-TOO-MANY-OPEN-FILES+)
+   (cons blend2d.ll::+ERROR-VALUE-TOO-LARGE+ '+ERROR-VALUE-TOO-LARGE+)
+   (cons blend2d.ll::+ERROR-TOO-MANY-THREADS+ '+ERROR-TOO-MANY-THREADS+)
+   (cons blend2d.ll::+ERROR-TRY-AGAIN+ '+ERROR-TRY-AGAIN+)
+   (cons blend2d.ll::+ERROR-UNKNOWN-SYSTEM-ERROR+ '+ERROR-UNKNOWN-SYSTEM-ERROR+)))
 
 ;; TODO: Make this more efficient
 (defmacro lookup-error (&body form)
