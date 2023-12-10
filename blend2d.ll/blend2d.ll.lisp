@@ -32,7 +32,6 @@
                                        #+darwin"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/"
                                        #+freebsd"/usr/include/"
                                        #+freebsd"/usr/local/include/")
-                    :language "c"
                     :spec-path '(blend2d specs)
                     :symbol-regex (("^BL_(.*)" () "\\1")
                                    ("^BL(.*)" () "\\1")
